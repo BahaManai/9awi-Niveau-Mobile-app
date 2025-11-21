@@ -27,10 +27,12 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
 
         binding.registerButton.setOnClickListener {
             if (validateInput()) {
-                val username = binding.usernameInput.text.toString().trim()
+                val firstName = binding.firstNameInput.text.toString().trim()
+                val lastName = binding.lastNameInput.text.toString().trim()
+                val dateOfBirth = binding.dateOfBirthInput.text.toString().trim()
                 val email = binding.emailInput.text.toString().trim()
                 val password = binding.passwordInput.text.toString()
-                viewModel.register(username, email, password)
+                viewModel.register(firstName, lastName, dateOfBirth, email, password)
             }
         }
 
@@ -42,17 +44,15 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
     }
 
     private fun validateInput(): Boolean {
-        val username = binding.usernameInput.text.toString().trim()
+        val firstName = binding.firstNameInput.text.toString().trim()
+        val lastName = binding.lastNameInput.text.toString().trim()
+        val dateOfBirth = binding.dateOfBirthInput.text.toString().trim()
         val email = binding.emailInput.text.toString().trim()
         val password = binding.passwordInput.text.toString()
+        val passwordConfirm = binding.passwordConfirmInput.text.toString()
 
-        if (username.isEmpty() || email.isEmpty() || password.isEmpty()) {
+        if (firstName.isEmpty() || lastName.isEmpty() || dateOfBirth.isEmpty() || email.isEmpty() || password.isEmpty() || passwordConfirm.isEmpty()) {
             Toast.makeText(requireContext(), "Remplissez tous les champs", Toast.LENGTH_SHORT).show()
-            return false
-        }
-
-        if (username.length < 3) {
-            Toast.makeText(requireContext(), "Le nom d'utilisateur doit contenir au moins 3 caractères", Toast.LENGTH_SHORT).show()
             return false
         }
 
@@ -63,6 +63,11 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
 
         if (password.length < 6) {
             Toast.makeText(requireContext(), "Le mot de passe doit contenir au moins 6 caractères", Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        if (password != passwordConfirm) {
+            Toast.makeText(requireContext(), "Les mots de passe ne correspondent pas", Toast.LENGTH_SHORT).show()
             return false
         }
 

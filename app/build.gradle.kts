@@ -19,7 +19,7 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         // Base URL for API; use 10.0.2.2 for emulator to reach localhost
-        buildConfigField("String", "API_BASE_URL", "\"http://10.0.2.2:8787/\"")
+        buildConfigField("String", "API_BASE_URL", "\"http://10.0.2.2:8080/\"")
     }
 
     buildTypes {

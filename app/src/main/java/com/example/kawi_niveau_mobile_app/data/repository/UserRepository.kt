@@ -3,7 +3,7 @@ package com.example.kawi_niveau_mobile_app.data.repository
 import com.example.kawi_niveau_mobile_app.data.UserPreferences
 import com.example.kawi_niveau_mobile_app.data.network.RemoteDataSource
 import com.example.kawi_niveau_mobile_app.data.network.Resource
-import com.example.kawi_niveau_mobile_app.data.responses.User
+import com.example.kawi_niveau_mobile_app.data.responses.ProfileResponse
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
@@ -12,10 +12,10 @@ class UserRepository @Inject constructor(
     private val userPreferences: UserPreferences
 ) : BaseRepository() {
 
-    suspend fun getUserProfile(): Resource<User> {
+    suspend fun getUserProfile(): Resource<ProfileResponse> {
         return safeApiCall {
             val token = userPreferences.getToken().first()
-            remoteDataSource.getUserProfile(token)
+            remoteDataSource.getUserProfile(token!!)
         }
     }
 

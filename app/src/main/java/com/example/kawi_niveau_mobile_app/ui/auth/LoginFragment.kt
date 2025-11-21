@@ -27,11 +27,11 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.loginButton.setOnClickListener {
-            val username = binding.usernameInput.text.toString().trim()
+            val email = binding.emailInput.text.toString().trim()
             val password = binding.passwordInput.text.toString()
 
-            if (username.isNotEmpty() && password.isNotEmpty()) {
-                viewModel.login(username, password)
+            if (email.isNotEmpty() && password.isNotEmpty()) {
+                viewModel.login(email, password)
             } else {
                 Toast.makeText(requireContext(), "Remplissez tous les champs", Toast.LENGTH_SHORT).show()
             }

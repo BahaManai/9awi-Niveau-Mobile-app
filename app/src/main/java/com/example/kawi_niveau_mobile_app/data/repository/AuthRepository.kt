@@ -11,9 +11,9 @@ class AuthRepository @Inject constructor(
     private val userPreferences: UserPreferences
 ) : BaseRepository() {
 
-    suspend fun login(username: String, password: String): Resource<LoginResponse> {
+    suspend fun login(email: String, password: String): Resource<LoginResponse> {
         return safeApiCall {
-            remoteDataSource.login(username, password)
+            remoteDataSource.login(email, password)
         }.also { result ->
             if (result is Resource.Success) {
                 result.data.token?.let { userPreferences.saveToken(it) }
@@ -21,9 +21,9 @@ class AuthRepository @Inject constructor(
         }
     }
 
-    suspend fun register(username: String, email: String, password: String): Resource<LoginResponse> {
+    suspend fun register(firstName: String, lastName: String, dateOfBirth: String, email: String, password: String): Resource<LoginResponse> {
         return safeApiCall {
-            remoteDataSource.register(username, email, password)
+            remoteDataSource.register(firstName, lastName, dateOfBirth, email, password)
         }
     }
 }
