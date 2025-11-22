@@ -9,5 +9,8 @@ data class ProfileResponse(
     val emailVerified: Boolean,
     val firstName: String?,
     val lastName: String?,
-    val dateOfBirth: String?
+    val dateOfBirth: String?,
+    val phoneNumber: String?,
+    val profileImage: String?,
+    val createdAt: Long?
 )

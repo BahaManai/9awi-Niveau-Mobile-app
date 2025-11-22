@@ -4,7 +4,10 @@ import com.example.kawi_niveau_mobile_app.data.UserPreferences
 import com.example.kawi_niveau_mobile_app.data.network.RemoteDataSource
 import com.example.kawi_niveau_mobile_app.data.network.Resource
 import com.example.kawi_niveau_mobile_app.data.responses.LoginResponse
+import com.example.kawi_niveau_mobile_app.data.responses.UploadResponse
 import javax.inject.Inject
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 
 class AuthRepository @Inject constructor(
     private val remoteDataSource: RemoteDataSource,
@@ -21,9 +24,22 @@ class AuthRepository @Inject constructor(
         }
     }
 
-    suspend fun register(firstName: String, lastName: String, dateOfBirth: String, email: String, password: String): Resource<LoginResponse> {
+    suspend fun register(
+        firstName: String,
+        lastName: String,
+        dateOfBirth: String,
+        email: String,
+        password: String,
+        phoneNumber: String?
+    ): Resource<LoginResponse> {
         return safeApiCall {
-            remoteDataSource.register(firstName, lastName, dateOfBirth, email, password)
+            remoteDataSource.register(firstName, lastName, dateOfBirth, email, password, phoneNumber)
+        }
+    }
+
+    suspend fun uploadImageAfterRegister(file: MultipartBody.Part, email: RequestBody): Resource<UploadResponse> {
+        return safeApiCall {
+            remoteDataSource.uploadImageAfterRegister(file, email)
         }
     }
 }

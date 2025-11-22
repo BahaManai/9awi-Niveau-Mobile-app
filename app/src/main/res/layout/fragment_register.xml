@@ -8,6 +8,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingBottom="32dp"
         tools:context=".ui.auth.RegisterFragment">
 
         <ImageView
@@ -40,8 +41,8 @@
             android:layout_marginEnd="32dp"
             android:hint="Votre prénom"
             android:inputType="text"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/labelFirstName" />
 
         <TextView
@@ -64,8 +65,8 @@
             android:layout_marginEnd="32dp"
             android:hint="Votre nom"
             android:inputType="text"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/labelLastName" />
 
         <TextView
@@ -88,9 +89,66 @@
             android:layout_marginEnd="32dp"
             android:hint="JJ/MM/AAAA"
             android:inputType="date"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/labelDateOfBirth" />
+
+        <TextView
+            android:id="@+id/labelPhone"
+            style="@style/TextLabelDefault"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:text="Téléphone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dateOfBirthInput" />
+
+        <EditText
+            android:id="@+id/phoneNumberInput"
+            style="@style/TextInputDefault"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:hint="+21612345678"
+            android:inputType="phone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/labelPhone" />
+
+        <TextView
+            android:id="@+id/labelProfileImage"
+            style="@style/TextLabelDefault"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:text="Photo de profil (optionnel)"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/phoneNumberInput" />
+
+        <ImageView
+            android:id="@+id/profileImagePreview"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/app_logo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/labelProfileImage" />
+
+        <Button
+            android:id="@+id/selectImageButton"
+            style="@style/ButtonPrimary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="Choisir une image"
+            app:layout_constraintBottom_toBottomOf="@+id/profileImagePreview"
+            app:layout_constraintStart_toEndOf="@+id/profileImagePreview"
+            app:layout_constraintTop_toTopOf="@+id/profileImagePreview" />
 
         <TextView
             android:id="@+id/labelEmail"
@@ -101,7 +159,7 @@
             android:layout_marginTop="16dp"
             android:text="Email"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dateOfBirthInput" />
+            app:layout_constraintTop_toBottomOf="@+id/profileImagePreview" />
 
         <EditText
             android:id="@+id/emailInput"
@@ -112,8 +170,8 @@
             android:layout_marginEnd="32dp"
             android:hint="email@exemple.com"
             android:inputType="textEmailAddress"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/labelEmail" />
 
         <TextView
@@ -134,8 +192,8 @@
             android:layout_marginStart="32dp"
             android:layout_marginEnd="32dp"
             android:inputType="textPassword"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/labelPassword" />
 
         <TextView
@@ -156,8 +214,8 @@
             android:layout_marginStart="32dp"
             android:layout_marginEnd="32dp"
             android:inputType="textPassword"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/labelPasswordConfirm" />
 
         <Button
@@ -166,12 +224,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"
             android:layout_marginTop="24dp"
-            android:layout_marginBottom="32dp"
+            android:layout_marginEnd="32dp"
             android:text="S'inscrire"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/passwordConfirmInput" />
 
         <TextView
@@ -179,12 +236,11 @@
             style="@style/TextDefault"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
             android:layout_marginTop="8dp"
             android:text="Déjà un compte ? Connexion"
-            app:layout_constraintTop_toBottomOf="@+id/registerButton"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/registerButton" />
 
         <ProgressBar
             android:id="@+id/progressBar"

@@ -11,6 +11,9 @@ import com.example.kawi_niveau_mobile_app.ui.base.BaseViewModel
 import kotlinx.coroutines.launch
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import com.example.kawi_niveau_mobile_app.data.responses.UploadResponse
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
@@ -23,6 +26,9 @@ class AuthViewModel @Inject constructor(
     private val _registerResult = MutableLiveData<Resource<LoginResponse>>()
     val registerResult: LiveData<Resource<LoginResponse>> = _registerResult
 
+    private val _uploadResult = MutableLiveData<Resource<UploadResponse>>()
+    val uploadResult: LiveData<Resource<UploadResponse>> = _uploadResult
+
     fun login(email: String, password: String) {
         _loginResult.postValue(Resource.Loading())
         viewModelScope.launch {
@@ -31,11 +37,19 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    fun register(firstName: String, lastName: String, dateOfBirth: String, email: String, password: String) {
+    fun register(firstName: String, lastName: String, dateOfBirth: String, email: String, password: String, phoneNumber: String?) {
         _registerResult.postValue(Resource.Loading())
         viewModelScope.launch {
-            val result = authRepository.register(firstName, lastName, dateOfBirth, email, password)
+            val result = authRepository.register(firstName, lastName, dateOfBirth, email, password, phoneNumber)
             _registerResult.postValue(result)
+        }
+    }
+
+    fun uploadImageAfterRegister(file: MultipartBody.Part, email: RequestBody) {
+        _uploadResult.postValue(Resource.Loading())
+        viewModelScope.launch {
+            val result = authRepository.uploadImageAfterRegister(file, email)
+            _uploadResult.postValue(result)
         }
     }
 }
