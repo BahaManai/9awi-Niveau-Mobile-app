@@ -13,6 +13,9 @@ class RemoteDataSource @Inject constructor(
     suspend fun login(email: String, password: String) =
         apiService.login(LoginRequest(email, password))
 
+    suspend fun loginWithGoogle(googleIdToken: String) =
+        apiService.loginWithGoogle(OAuth2LoginRequest(googleIdToken))
+
     suspend fun register(
         firstName: String,
         lastName: String,

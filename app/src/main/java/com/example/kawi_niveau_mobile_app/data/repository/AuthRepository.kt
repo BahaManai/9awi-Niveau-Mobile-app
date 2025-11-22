@@ -24,6 +24,29 @@ class AuthRepository @Inject constructor(
         }
     }
 
+    suspend fun loginWithGoogle(googleIdToken: String): Resource<LoginResponse> {
+        android.util.Log.d("AuthRepository", "Sending Google token to backend")
+        return safeApiCall {
+            remoteDataSource.loginWithGoogle(googleIdToken)
+        }.also { result ->
+            when (result) {
+                is Resource.Success -> {
+                    android.util.Log.d("AuthRepository", "Backend success - Token: ${if (result.data.token != null) "present" else "null"}")
+                    result.data.token?.let { 
+                        userPreferences.saveToken(it)
+                        android.util.Log.d("AuthRepository", "JWT saved to DataStore")
+                    }
+                }
+                is Resource.Error -> {
+                    android.util.Log.e("AuthRepository", "Backend error: ${result.message}")
+                }
+                else -> {
+                    android.util.Log.d("AuthRepository", "Loading state")
+                }
+            }
+        }
+    }
+
     suspend fun register(
         firstName: String,
         lastName: String,

@@ -37,6 +37,16 @@ class AuthViewModel @Inject constructor(
         }
     }
 
+    fun loginWithGoogle(googleIdToken: String) {
+        android.util.Log.d("AuthViewModel", "Login with Google started - Token: ${googleIdToken.take(50)}...")
+        _loginResult.postValue(Resource.Loading())
+        viewModelScope.launch {
+            val result = authRepository.loginWithGoogle(googleIdToken)
+            android.util.Log.d("AuthViewModel", "Login result: ${result.javaClass.simpleName}")
+            _loginResult.postValue(result)
+        }
+    }
+
     fun register(firstName: String, lastName: String, dateOfBirth: String, email: String, password: String, phoneNumber: String?) {
         _registerResult.postValue(Resource.Loading())
         viewModelScope.launch {
