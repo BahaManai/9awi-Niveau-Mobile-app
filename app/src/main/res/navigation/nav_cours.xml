@@ -2,23 +2,17 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_home_graph"
-    app:startDestination="@id/homeFragment">
+    android:id="@+id/nav_cours_graph"
+    app:startDestination="@id/coursListFragment">
 
     <fragment
-        android:id="@+id/homeFragment"
-        android:name="com.example.kawi_niveau_mobile_app.ui.home.accueil.HomeFragment"
-        android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
-
-    <fragment
-        android:id="@+id/nav_courses"
+        android:id="@+id/coursListFragment"
         android:name="com.example.kawi_niveau_mobile_app.ui.cours.CoursListFragment"
-        android:label="@string/menu_courses"
+        android:label="Mes Cours"
         tools:layout="@layout/fragment_cours_list">
         
         <action
-            android:id="@+id/action_courses_to_coursDetail"
+            android:id="@+id/action_coursList_to_coursDetail"
             app:destination="@id/coursDetailFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
@@ -55,16 +49,4 @@
             android:name="moduleId"
             app:argType="long" />
     </fragment>
-
-    <fragment
-        android:id="@+id/nav_progress"
-        android:name="com.example.kawi_niveau_mobile_app.ui.home.progres.ProgressFragment"
-        android:label="@string/menu_progress"
-        tools:layout="@layout/fragment_progress" />
-
-    <fragment
-        android:id="@+id/nav_profile"
-        android:name="com.example.kawi_niveau_mobile_app.ui.home.profil.ProfileFragment"
-        android:label="@string/menu_profile"
-        tools:layout="@layout/fragment_profile" />
 </navigation>

@@ -1,5 +1,10 @@
 package com.example.kawi_niveau_mobile_app.data.network
 
+import com.example.kawi_niveau_mobile_app.data.requests.EnrollmentRequest
+import com.example.kawi_niveau_mobile_app.data.responses.CoursResponse
+import com.example.kawi_niveau_mobile_app.data.responses.EnrollmentResponse
+import com.example.kawi_niveau_mobile_app.data.responses.ModuleProgressResponse
+import com.example.kawi_niveau_mobile_app.data.responses.ModuleResponse
 import com.example.kawi_niveau_mobile_app.data.responses.ProfileResponse
 import com.example.kawi_niveau_mobile_app.data.responses.UploadResponse
 import okhttp3.MultipartBody
@@ -33,4 +38,32 @@ class RemoteDataSource @Inject constructor(
 
     suspend fun uploadProfileImage(token: String, file: MultipartBody.Part): Response<UploadResponse> =
         apiService.uploadProfileImage("Bearer $token", file)
+
+    // ========== COURS ==========
+    suspend fun getAllCours(token: String): Response<List<CoursResponse>> =
+        apiService.getAllCours("Bearer $token")
+
+    suspend fun getCoursById(token: String, id: Long): Response<CoursResponse> =
+        apiService.getCoursById("Bearer $token", id)
+
+    // ========== ENROLLMENT ==========
+    suspend fun enrollInCourse(token: String, request: EnrollmentRequest): Response<EnrollmentResponse> =
+        apiService.enrollInCourse("Bearer $token", request)
+
+    suspend fun getUserEnrollments(token: String): Response<List<EnrollmentResponse>> =
+        apiService.getUserEnrollments("Bearer $token")
+
+    suspend fun getEnrollmentDetails(token: String, coursId: Long): Response<EnrollmentResponse> =
+        apiService.getEnrollmentDetails("Bearer $token", coursId)
+
+    // ========== MODULE ==========
+    suspend fun getModulesByCours(token: String, coursId: Long): Response<List<ModuleResponse>> =
+        apiService.getModulesByCours("Bearer $token", coursId)
+
+    suspend fun getModuleById(token: String, id: Long): Response<ModuleResponse> =
+        apiService.getModuleById("Bearer $token", id)
+
+    // ========== MODULE PROGRESS ==========
+    suspend fun getModulesWithProgress(token: String, coursId: Long): Response<List<ModuleProgressResponse>> =
+        apiService.getModulesWithProgress("Bearer $token", coursId)
 }
