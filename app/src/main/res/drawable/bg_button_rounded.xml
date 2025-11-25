@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <!-- J'utilise la couleur #3e6ef1 qui était dans votre bouton -->
+    <solid android:color="#3e6ef1" />
+    <!-- Le radius élevé donne un effet "pilule" moderne -->
+    <corners android:radius="50dp" />
+</shape>

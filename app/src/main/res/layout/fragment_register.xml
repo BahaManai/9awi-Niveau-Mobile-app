@@ -22,6 +22,17 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/textView"
+            style="@style/TextTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Inscription"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+
+        <TextView
             android:id="@+id/labelFirstName"
             style="@style/TextLabelDefault"
             android:layout_width="wrap_content"
@@ -30,11 +41,10 @@
             android:layout_marginTop="16dp"
             android:text="Prénom"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
 
         <EditText
             android:id="@+id/firstNameInput"
-            style="@style/TextInputDefault"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
@@ -58,7 +68,6 @@
 
         <EditText
             android:id="@+id/lastNameInput"
-            style="@style/TextInputDefault"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
@@ -82,7 +91,6 @@
 
         <EditText
             android:id="@+id/dateOfBirthInput"
-            style="@style/TextInputDefault"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
@@ -106,7 +114,6 @@
 
         <EditText
             android:id="@+id/phoneNumberInput"
-            style="@style/TextInputDefault"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
@@ -144,11 +151,13 @@
             style="@style/ButtonPrimary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="Choisir une image"
+            android:layout_marginStart="44dp"
+            android:text="  Choisir une image   "
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@+id/profileImagePreview"
             app:layout_constraintStart_toEndOf="@+id/profileImagePreview"
-            app:layout_constraintTop_toTopOf="@+id/profileImagePreview" />
+            app:layout_constraintTop_toTopOf="@+id/profileImagePreview"
+            app:layout_constraintVertical_bias="0.541" />
 
         <TextView
             android:id="@+id/labelEmail"
@@ -163,7 +172,6 @@
 
         <EditText
             android:id="@+id/emailInput"
-            style="@style/TextInputDefault"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
@@ -221,11 +229,9 @@
         <Button
             android:id="@+id/registerButton"
             style="@style/ButtonPrimary"
-            android:layout_width="match_parent"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
             android:layout_marginTop="24dp"
-            android:layout_marginEnd="32dp"
             android:text="S'inscrire"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
