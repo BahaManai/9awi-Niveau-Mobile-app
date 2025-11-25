@@ -89,6 +89,9 @@ dependencies {
     // Google Sign-In
     implementation("com.google.android.gms:play-services-auth:20.7.0")
 
+    // Glide - Image Loading
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+
     // Material
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.appcompat:appcompat:1.6.1")

@@ -127,6 +127,19 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
             when (result) {
                 is Resource.Success -> {
                     Log.d("LoginFragment", "Login success - Token: ${if (result.data.token != null) "present" else "null"}")
+                    Log.d("LoginFragment", "User role: ${result.data.role}")
+                    
+                    // Vérifier le rôle
+                    if (result.data.role != "ETUDIANT") {
+                        Log.e("LoginFragment", "Access denied - Role is ${result.data.role}")
+                        Toast.makeText(
+                            requireContext(),
+                            "Accès refusé. Cette application est réservée aux étudiants.",
+                            Toast.LENGTH_LONG
+                        ).show()
+                        return@observe
+                    }
+                    
                     if (result.data.token != null) {
                         Log.d("LoginFragment", "Navigating to home")
                         findNavController().navigate(R.id.action_loginFragment_to_homeActivity)

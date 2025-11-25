@@ -1,4 +1,4 @@
-package com.example.kawi_niveau_mobile_app.ui.home
+package com.example.kawi_niveau_mobile_app.ui.home.progres
 
 import android.os.Bundle
 import android.view.LayoutInflater

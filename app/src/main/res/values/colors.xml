@@ -1,18 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Couleurs de base requises par le thème par défaut -->
+    <!-- Couleurs principales -->
+    <color name="primary_blue">#2e87eb</color>
+    <color name="primary_blue_dark">#1a6bc9</color>
+    <color name="primary_blue_light">#5ca3f0</color>
+    <color name="accent_blue">#4d9ef5</color>
+    
+    <!-- Couleurs de base -->
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="gray_light">#F5F5F5</color>
+    <color name="gray_medium">#9E9E9E</color>
+    <color name="gray_dark">#424242</color>
+    
+    <!-- Couleurs de statut -->
+    <color name="success_green">#4CAF50</color>
+    <color name="warning_orange">#FF9800</color>
+    <color name="error_red">#F44336</color>
+    
+    <!-- Couleurs de texte -->
+    <color name="text_primary">#212121</color>
+    <color name="text_secondary">#757575</color>
+    <color name="text_hint">#BDBDBD</color>
+    
+    <!-- Couleurs legacy (pour compatibilité) -->
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC6</color>
     <color name="teal_700">#FF018786</color>
-
-    <!-- Vos couleurs personnalisées -->
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="kawi_blue">#536ff4</color>
-
-    <!-- Couleur primaire manquante, requise par un drawable -->
-    <color name="colorPrimary">#536ff4</color>
-
+    <color name="kawi_blue">#2e87eb</color>
+    <color name="colorPrimary">#2e87eb</color>
 </resources>

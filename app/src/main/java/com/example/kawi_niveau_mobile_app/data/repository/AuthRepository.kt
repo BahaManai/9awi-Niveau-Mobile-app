@@ -19,6 +19,11 @@ class AuthRepository @Inject constructor(
             remoteDataSource.login(email, password)
         }.also { result ->
             if (result is Resource.Success) {
+                // Vérifier le rôle
+                if (result.data.role != "ETUDIANT") {
+                    android.util.Log.e("AuthRepository", "Access denied - Role is ${result.data.role}, expected ETUDIANT")
+                    return@also
+                }
                 result.data.token?.let { userPreferences.saveToken(it) }
             }
         }
@@ -32,6 +37,14 @@ class AuthRepository @Inject constructor(
             when (result) {
                 is Resource.Success -> {
                     android.util.Log.d("AuthRepository", "Backend success - Token: ${if (result.data.token != null) "present" else "null"}")
+                    android.util.Log.d("AuthRepository", "User role: ${result.data.role}")
+                    
+                    // Vérifier le rôle
+                    if (result.data.role != "ETUDIANT") {
+                        android.util.Log.e("AuthRepository", "Access denied - Role is ${result.data.role}, expected ETUDIANT")
+                        return@also
+                    }
+                    
                     result.data.token?.let { 
                         userPreferences.saveToken(it)
                         android.util.Log.d("AuthRepository", "JWT saved to DataStore")

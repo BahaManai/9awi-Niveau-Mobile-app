@@ -13,6 +13,8 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.bumptech.glide.Glide
+import com.example.kawi_niveau_mobile_app.BuildConfig
 import com.example.kawi_niveau_mobile_app.R
 import com.example.kawi_niveau_mobile_app.data.UserPreferences
 import com.example.kawi_niveau_mobile_app.databinding.ActivityHomeBinding
@@ -31,6 +33,9 @@ class HomeActivity : AppCompatActivity() {
 
     @Inject
     lateinit var userPreferences: UserPreferences
+    
+    @Inject
+    lateinit var userRepository: com.example.kawi_niveau_mobile_app.data.repository.UserRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,11 +82,38 @@ class HomeActivity : AppCompatActivity() {
         val headerView = binding.navView.getHeaderView(0)
         val nameTextView = headerView.findViewById<TextView>(R.id.textView_name)
         val emailTextView = headerView.findViewById<TextView>(R.id.textView_email)
+        val profileImageView = headerView.findViewById<ImageView>(R.id.imageView_profile)
 
         lifecycleScope.launch {
-            // TODO: Récupérer les vraies informations utilisateur
-            nameTextView.text = "Utilisateur Anonyme"
-            emailTextView.text = "email@example.com"
+            val result = userRepository.getProfile()
+            when (result) {
+                is com.example.kawi_niveau_mobile_app.data.network.Resource.Success -> {
+                    val profile = result.data
+                    val fullName = "${profile.firstName ?: ""} ${profile.lastName ?: ""}".trim()
+                    nameTextView.text = if (fullName.isNotEmpty()) fullName else "Utilisateur"
+                    emailTextView.text = profile.email
+                    
+                    // Charger la photo de profil avec Glide
+                    profile.profileImage?.let { filename ->
+                        val imageUrl = "${BuildConfig.API_BASE_URL}images/users/$filename"
+                        Glide.with(this@HomeActivity)
+                            .load(imageUrl)
+                            .placeholder(R.drawable.ic_profile_placeholder)
+                            .error(R.drawable.ic_profile_placeholder)
+                            .circleCrop()
+                            .into(profileImageView)
+                    } ?: run {
+                        profileImageView.setImageResource(R.drawable.ic_profile_placeholder)
+                    }
+                }
+                is com.example.kawi_niveau_mobile_app.data.network.Resource.Error -> {
+                    android.util.Log.e("HomeActivity", "Error loading profile: ${result.message}")
+                    nameTextView.text = "Utilisateur"
+                    emailTextView.text = "email@example.com"
+                    profileImageView.setImageResource(R.drawable.ic_profile_placeholder)
+                }
+                else -> {}
+            }
         }
     }
 

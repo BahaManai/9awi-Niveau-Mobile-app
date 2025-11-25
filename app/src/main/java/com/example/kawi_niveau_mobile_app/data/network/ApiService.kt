@@ -24,7 +24,7 @@ interface ApiService {
     suspend fun register(@Body request: RegisterRequest): Response<LoginResponse>
 
     @GET("/api/profile")
-    suspend fun getUserProfile(@Header("Authorization") token: String): Response<ProfileResponse>
+    suspend fun getProfile(@Header("Authorization") token: String): Response<ProfileResponse>
 
     @Multipart
     @POST("/api/profile/upload-image-after-register")

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.home.ProgressFragment">
+    tools:context=".ui.home.progres.ProgressFragment">
 
     <TextView
         android:id="@+id/text_progress"

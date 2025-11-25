@@ -12,10 +12,10 @@ class UserRepository @Inject constructor(
     private val userPreferences: UserPreferences
 ) : BaseRepository() {
 
-    suspend fun getUserProfile(): Resource<ProfileResponse> {
+    suspend fun getProfile(): Resource<ProfileResponse> {
         return safeApiCall {
             val token = userPreferences.getToken().first()
-            remoteDataSource.getUserProfile(token!!)
+            remoteDataSource.getProfile(token!!)
         }
     }
 

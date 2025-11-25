@@ -23,7 +23,7 @@ class HomeViewModel @Inject constructor(
     fun getUserProfile() {
         _userProfile.postValue(Resource.Loading())
         viewModelScope.launch {
-            val result = userRepository.getUserProfile()
+            val result = userRepository.getProfile()
             _userProfile.postValue(result)
         }
     }

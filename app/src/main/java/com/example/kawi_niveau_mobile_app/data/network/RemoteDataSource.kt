@@ -25,8 +25,8 @@ class RemoteDataSource @Inject constructor(
         phoneNumber: String?
     ) = apiService.register(RegisterRequest(firstName, lastName, dateOfBirth, email, password, phoneNumber))
 
-    suspend fun getUserProfile(token: String): Response<ProfileResponse> =
-        apiService.getUserProfile("Bearer $token")
+    suspend fun getProfile(token: String): Response<ProfileResponse> =
+        apiService.getProfile("Bearer $token")
 
     suspend fun uploadImageAfterRegister(file: MultipartBody.Part, email: RequestBody): Response<UploadResponse> =
         apiService.uploadImageAfterRegister(file, email)
