@@ -36,4 +36,28 @@ class EnrollmentRepository @Inject constructor(
             remoteDataSource.getEnrollmentDetails(token, coursId)
         }
     }
+
+    suspend fun markLeconAsCompleted(coursId: Long, leconId: Long): Resource<EnrollmentResponse> {
+        val token = userPreferences.getToken().first()
+        if (token.isEmpty()) return Resource.Error("Token manquant")
+        return safeApiCall {
+            remoteDataSource.markLeconAsCompleted(token, coursId, leconId)
+        }
+    }
+
+    suspend fun unmarkLeconAsCompleted(coursId: Long, leconId: Long): Resource<EnrollmentResponse> {
+        val token = userPreferences.getToken().first()
+        if (token.isEmpty()) return Resource.Error("Token manquant")
+        return safeApiCall {
+            remoteDataSource.unmarkLeconAsCompleted(token, coursId, leconId)
+        }
+    }
+
+    suspend fun getCompletedLeconIds(coursId: Long): Resource<List<Long>> {
+        val token = userPreferences.getToken().first()
+        if (token.isEmpty()) return Resource.Error("Token manquant")
+        return safeApiCall {
+            remoteDataSource.getCompletedLeconIds(token, coursId)
+        }
+    }
 }

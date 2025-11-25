@@ -7,6 +7,7 @@ import com.example.kawi_niveau_mobile_app.data.responses.ModuleProgressResponse
 import com.example.kawi_niveau_mobile_app.data.responses.ModuleResponse
 import com.example.kawi_niveau_mobile_app.data.responses.ProfileResponse
 import com.example.kawi_niveau_mobile_app.data.responses.UploadResponse
+import com.example.kawi_niveau_mobile_app.data.responses.LeconResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -66,4 +67,21 @@ class RemoteDataSource @Inject constructor(
     // ========== MODULE PROGRESS ==========
     suspend fun getModulesWithProgress(token: String, coursId: Long): Response<List<ModuleProgressResponse>> =
         apiService.getModulesWithProgress("Bearer $token", coursId)
+
+    // ========== LECON ==========
+    suspend fun getLeconsByModule(token: String, moduleId: Long): Response<List<LeconResponse>> =
+        apiService.getLeconsByModule("Bearer $token", moduleId)
+
+    suspend fun getLeconById(token: String, id: Long): Response<LeconResponse> =
+        apiService.getLeconById("Bearer $token", id)
+
+    // ========== LECON COMPLETION ==========
+    suspend fun markLeconAsCompleted(token: String, coursId: Long, leconId: Long): Response<EnrollmentResponse> =
+        apiService.markLeconAsCompleted("Bearer $token", coursId, com.example.kawi_niveau_mobile_app.data.requests.LeconCompletionRequest(leconId))
+
+    suspend fun unmarkLeconAsCompleted(token: String, coursId: Long, leconId: Long): Response<EnrollmentResponse> =
+        apiService.unmarkLeconAsCompleted("Bearer $token", coursId, leconId)
+
+    suspend fun getCompletedLeconIds(token: String, coursId: Long): Response<List<Long>> =
+        apiService.getCompletedLeconIds("Bearer $token", coursId)
 }

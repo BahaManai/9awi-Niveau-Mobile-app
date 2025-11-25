@@ -1,8 +1,10 @@
 package com.example.kawi_niveau_mobile_app.data.network
 
 import com.example.kawi_niveau_mobile_app.data.requests.EnrollmentRequest
+import com.example.kawi_niveau_mobile_app.data.requests.LeconCompletionRequest
 import com.example.kawi_niveau_mobile_app.data.responses.CoursResponse
 import com.example.kawi_niveau_mobile_app.data.responses.EnrollmentResponse
+import com.example.kawi_niveau_mobile_app.data.responses.LeconResponse
 import com.example.kawi_niveau_mobile_app.data.responses.LoginResponse
 import com.example.kawi_niveau_mobile_app.data.responses.ModuleProgressResponse
 import com.example.kawi_niveau_mobile_app.data.responses.ModuleResponse
@@ -12,6 +14,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Multipart
@@ -91,4 +94,38 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Path("coursId") coursId: Long
     ): Response<List<ModuleProgressResponse>>
+
+    // ========== LECON API ==========
+    @GET("/api/lecons/module/{moduleId}")
+    suspend fun getLeconsByModule(
+        @Header("Authorization") token: String,
+        @Path("moduleId") moduleId: Long
+    ): Response<List<LeconResponse>>
+
+    @GET("/api/lecons/{id}")
+    suspend fun getLeconById(
+        @Header("Authorization") token: String,
+        @Path("id") id: Long
+    ): Response<LeconResponse>
+
+    // ========== LECON COMPLETION API ==========
+    @POST("/api/enrollments/cours/{coursId}/complete-lecon")
+    suspend fun markLeconAsCompleted(
+        @Header("Authorization") token: String,
+        @Path("coursId") coursId: Long,
+        @Body request: LeconCompletionRequest
+    ): Response<EnrollmentResponse>
+
+    @DELETE("/api/enrollments/cours/{coursId}/lecons/{leconId}/completion")
+    suspend fun unmarkLeconAsCompleted(
+        @Header("Authorization") token: String,
+        @Path("coursId") coursId: Long,
+        @Path("leconId") leconId: Long
+    ): Response<EnrollmentResponse>
+
+    @GET("/api/enrollments/cours/{coursId}/completed-lecons")
+    suspend fun getCompletedLeconIds(
+        @Header("Authorization") token: String,
+        @Path("coursId") coursId: Long
+    ): Response<List<Long>>
 }
