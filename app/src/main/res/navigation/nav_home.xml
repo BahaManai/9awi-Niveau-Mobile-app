@@ -54,6 +54,29 @@
         <argument
             android:name="moduleId"
             app:argType="long" />
+        
+        <action
+            android:id="@+id/action_moduleDetail_to_quizViewer"
+            app:destination="@id/quizViewerFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/quizViewerFragment"
+        android:name="com.example.kawi_niveau_mobile_app.ui.quiz.QuizViewerFragment"
+        android:label="Quiz"
+        tools:layout="@layout/fragment_quiz_viewer">
+        
+        <argument
+            android:name="quizId"
+            app:argType="long" />
+        
+        <argument
+            android:name="moduleId"
+            app:argType="long" />
     </fragment>
 
     <fragment

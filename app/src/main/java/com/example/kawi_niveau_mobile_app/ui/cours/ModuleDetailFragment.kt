@@ -112,6 +112,9 @@ class ModuleDetailFragment : Fragment() {
                         binding.layoutEmptyState.visibility = View.GONE
                         leconAdapter.submitList(result.data)
                     }
+                    
+                    // Mettre à jour l'état du bouton quiz quand les leçons changent
+                    updateQuizButtonState()
                 }
                 is Resource.Error -> {
                     binding.progressBarLecons.visibility = View.GONE
@@ -150,6 +153,80 @@ class ModuleDetailFragment : Fragment() {
                 }
                 null -> {}
             }
+        }
+
+        // Observer le quiz
+        viewModel.quiz.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                is Resource.Loading -> {
+                    binding.progressBarQuiz.visibility = View.VISIBLE
+                    binding.layoutQuiz.visibility = View.GONE
+                    binding.layoutNoQuiz.visibility = View.GONE
+                }
+                is Resource.Success -> {
+                    binding.progressBarQuiz.visibility = View.GONE
+                    
+                    if (result.data != null) {
+                        binding.layoutQuiz.visibility = View.VISIBLE
+                        binding.layoutNoQuiz.visibility = View.GONE
+                        
+                        val quiz = result.data
+                        binding.textViewQuizTitre.text = quiz.titre
+                        binding.textViewQuizDescription.text = quiz.description ?: "Aucune description"
+                        binding.textViewQuizQuestions.text = "${quiz.questions?.size ?: 0} question(s)"
+                        
+                        // Mettre à jour l'état du bouton
+                        updateQuizButtonState()
+                        
+                        binding.buttonPasserQuiz.setOnClickListener {
+                            // Navigation vers QuizViewerFragment
+                            try {
+                                val action = ModuleDetailFragmentDirections.actionModuleDetailToQuizViewer(
+                                    quizId = quiz.id,
+                                    moduleId = moduleId
+                                )
+                                findNavController().navigate(action)
+                            } catch (e: Exception) {
+                                Toast.makeText(
+                                    requireContext(),
+                                    "Erreur de navigation: ${e.message}",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                android.util.Log.e("ModuleDetailFragment", "Navigation error", e)
+                            }
+                        }
+                    } else {
+                        binding.layoutQuiz.visibility = View.GONE
+                        binding.layoutNoQuiz.visibility = View.VISIBLE
+                    }
+                }
+                is Resource.Error -> {
+                    binding.progressBarQuiz.visibility = View.GONE
+                    binding.layoutQuiz.visibility = View.GONE
+                    binding.layoutNoQuiz.visibility = View.VISIBLE
+                }
+            }
+        }
+    }
+
+    private fun updateQuizButtonState() {
+        // Vérifier si le quiz est visible
+        if (binding.layoutQuiz.visibility != View.VISIBLE) return
+        
+        // Vérifier si toutes les leçons sont complétées
+        val allCompleted = viewModel.allLeconsCompleted()
+        
+        // Debug: afficher l'état
+        android.util.Log.d("ModuleDetailFragment", "updateQuizButtonState: allCompleted = $allCompleted")
+        
+        if (allCompleted) {
+            binding.buttonPasserQuiz.isEnabled = true
+            binding.buttonPasserQuiz.text = "Passer le quiz"
+            binding.textViewQuizLocked.visibility = View.GONE
+        } else {
+            binding.buttonPasserQuiz.isEnabled = false
+            binding.buttonPasserQuiz.text = "Quiz verrouillé"
+            binding.textViewQuizLocked.visibility = View.VISIBLE
         }
     }
 

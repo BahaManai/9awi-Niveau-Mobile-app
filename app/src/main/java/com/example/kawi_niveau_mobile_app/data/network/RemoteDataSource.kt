@@ -84,4 +84,24 @@ class RemoteDataSource @Inject constructor(
 
     suspend fun getCompletedLeconIds(token: String, coursId: Long): Response<List<Long>> =
         apiService.getCompletedLeconIds("Bearer $token", coursId)
+
+    // ========== QUIZ ==========
+    suspend fun getQuizByModuleId(token: String, moduleId: Long) =
+        apiService.getQuizByModuleId("Bearer $token", moduleId)
+
+    suspend fun getQuizById(token: String, quizId: Long) =
+        apiService.getQuizById("Bearer $token", quizId)
+
+    // ========== QUIZ RESULTS ==========
+    suspend fun submitQuiz(token: String, quizId: Long, submission: com.example.kawi_niveau_mobile_app.data.requests.QuizSubmissionRequest) =
+        apiService.submitQuiz("Bearer $token", quizId, submission)
+
+    suspend fun getUserQuizAttempts(token: String, quizId: Long) =
+        apiService.getUserQuizAttempts("Bearer $token", quizId)
+
+    suspend fun getBestScore(token: String, quizId: Long) =
+        apiService.getBestScore("Bearer $token", quizId)
+
+    suspend fun getResultatDetails(token: String, resultatId: Long) =
+        apiService.getResultatDetails("Bearer $token", resultatId)
 }

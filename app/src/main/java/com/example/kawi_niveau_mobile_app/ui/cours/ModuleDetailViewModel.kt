@@ -8,9 +8,11 @@ import com.example.kawi_niveau_mobile_app.data.network.Resource
 import com.example.kawi_niveau_mobile_app.data.repository.EnrollmentRepository
 import com.example.kawi_niveau_mobile_app.data.repository.LeconRepository
 import com.example.kawi_niveau_mobile_app.data.repository.ModuleRepository
+import com.example.kawi_niveau_mobile_app.data.repository.QuizRepository
 import com.example.kawi_niveau_mobile_app.data.responses.EnrollmentResponse
 import com.example.kawi_niveau_mobile_app.data.responses.LeconResponse
 import com.example.kawi_niveau_mobile_app.data.responses.ModuleResponse
+import com.example.kawi_niveau_mobile_app.data.responses.QuizResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -24,7 +26,8 @@ data class LeconWithCompletion(
 class ModuleDetailViewModel @Inject constructor(
     private val moduleRepository: ModuleRepository,
     private val leconRepository: LeconRepository,
-    private val enrollmentRepository: EnrollmentRepository
+    private val enrollmentRepository: EnrollmentRepository,
+    private val quizRepository: QuizRepository
 ) : ViewModel() {
 
     private val _module = MutableLiveData<Resource<ModuleResponse>>()
@@ -36,12 +39,16 @@ class ModuleDetailViewModel @Inject constructor(
     private val _completionResult = MutableLiveData<Resource<EnrollmentResponse>>()
     val completionResult: LiveData<Resource<EnrollmentResponse>> = _completionResult
 
+    private val _quiz = MutableLiveData<Resource<QuizResponse?>>()
+    val quiz: LiveData<Resource<QuizResponse?>> = _quiz
+
     private var coursId: Long = 0L
     private val completedLeconIds = mutableSetOf<Long>()
 
     fun loadModuleDetail(moduleId: Long) {
         loadModule(moduleId)
         loadLecons(moduleId)
+        loadQuiz(moduleId)
     }
 
     private fun loadModule(moduleId: Long) {
@@ -144,11 +151,32 @@ class ModuleDetailViewModel @Inject constructor(
         _completionResult.value = null
     }
 
+    private fun loadQuiz(moduleId: Long) {
+        _quiz.postValue(Resource.Loading())
+        viewModelScope.launch {
+            val result = quizRepository.getQuizByModuleId(moduleId)
+            when (result) {
+                is Resource.Success -> {
+                    _quiz.postValue(Resource.Success(result.data))
+                }
+                is Resource.Error -> {
+                    // Pas de quiz pour ce module, ce n'est pas une erreur
+                    _quiz.postValue(Resource.Success(null))
+                }
+                else -> {}
+            }
+        }
+    }
+
     fun allLeconsCompleted(): Boolean {
         val currentLecons = _lecons.value
         return if (currentLecons is Resource.Success) {
-            currentLecons.data.isNotEmpty() && currentLecons.data.all { it.completed }
+            val allCompleted = currentLecons.data.isNotEmpty() && currentLecons.data.all { it.completed }
+            // Debug
+            android.util.Log.d("ModuleDetailViewModel", "allLeconsCompleted: total=${currentLecons.data.size}, completed=${currentLecons.data.count { it.completed }}, result=$allCompleted")
+            allCompleted
         } else {
+            android.util.Log.d("ModuleDetailViewModel", "allLeconsCompleted: lecons not loaded yet")
             false
         }
     }

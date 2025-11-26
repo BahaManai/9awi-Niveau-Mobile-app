@@ -128,4 +128,43 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Path("coursId") coursId: Long
     ): Response<List<Long>>
+
+    // ========== QUIZ API ==========
+    @GET("/api/quiz/module/{moduleId}")
+    suspend fun getQuizByModuleId(
+        @Header("Authorization") token: String,
+        @Path("moduleId") moduleId: Long
+    ): Response<com.example.kawi_niveau_mobile_app.data.responses.QuizResponse>
+
+    @GET("/api/quiz/{quizId}")
+    suspend fun getQuizById(
+        @Header("Authorization") token: String,
+        @Path("quizId") quizId: Long
+    ): Response<com.example.kawi_niveau_mobile_app.data.responses.QuizResponse>
+
+    // ========== QUIZ RESULTS API ==========
+    @POST("/api/quiz-resultats/quiz/{quizId}/submit")
+    suspend fun submitQuiz(
+        @Header("Authorization") token: String,
+        @Path("quizId") quizId: Long,
+        @Body submission: com.example.kawi_niveau_mobile_app.data.requests.QuizSubmissionRequest
+    ): Response<com.example.kawi_niveau_mobile_app.data.responses.ResultatQuizResponse>
+
+    @GET("/api/quiz-resultats/quiz/{quizId}/attempts")
+    suspend fun getUserQuizAttempts(
+        @Header("Authorization") token: String,
+        @Path("quizId") quizId: Long
+    ): Response<List<com.example.kawi_niveau_mobile_app.data.responses.QuizAttemptResponse>>
+
+    @GET("/api/quiz-resultats/quiz/{quizId}/best-score")
+    suspend fun getBestScore(
+        @Header("Authorization") token: String,
+        @Path("quizId") quizId: Long
+    ): Response<com.example.kawi_niveau_mobile_app.data.responses.QuizAttemptResponse>
+
+    @GET("/api/quiz-resultats/{resultatId}")
+    suspend fun getResultatDetails(
+        @Header("Authorization") token: String,
+        @Path("resultatId") resultatId: Long
+    ): Response<com.example.kawi_niveau_mobile_app.data.responses.ResultatQuizResponse>
 }
