@@ -1,15 +1,16 @@
 package com.example.kawi_niveau_mobile_app.data.repository
 
 import com.example.kawi_niveau_mobile_app.data.UserPreferences
-import com.example.kawi_niveau_mobile_app.data.network.RemoteDataSource
+import com.example.kawi_niveau_mobile_app.data.network.EnrollmentApiService
 import com.example.kawi_niveau_mobile_app.data.network.Resource
 import com.example.kawi_niveau_mobile_app.data.requests.EnrollmentRequest
+import com.example.kawi_niveau_mobile_app.data.requests.LeconCompletionRequest
 import com.example.kawi_niveau_mobile_app.data.responses.EnrollmentResponse
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 class EnrollmentRepository @Inject constructor(
-    private val remoteDataSource: RemoteDataSource,
+    private val enrollmentApiService: EnrollmentApiService,
     private val userPreferences: UserPreferences
 ) : BaseRepository() {
 
@@ -17,7 +18,7 @@ class EnrollmentRepository @Inject constructor(
         val token = userPreferences.getToken().first()
         if (token.isEmpty()) return Resource.Error("Token manquant")
         return safeApiCall {
-            remoteDataSource.enrollInCourse(token, EnrollmentRequest(coursId))
+            enrollmentApiService.enrollInCourse("Bearer $token", EnrollmentRequest(coursId))
         }
     }
 
@@ -25,7 +26,7 @@ class EnrollmentRepository @Inject constructor(
         val token = userPreferences.getToken().first()
         if (token.isEmpty()) return Resource.Error("Token manquant")
         return safeApiCall {
-            remoteDataSource.getUserEnrollments(token)
+            enrollmentApiService.getUserEnrollments("Bearer $token")
         }
     }
 
@@ -33,7 +34,7 @@ class EnrollmentRepository @Inject constructor(
         val token = userPreferences.getToken().first()
         if (token.isEmpty()) return Resource.Error("Token manquant")
         return safeApiCall {
-            remoteDataSource.getEnrollmentDetails(token, coursId)
+            enrollmentApiService.getEnrollmentDetails("Bearer $token", coursId)
         }
     }
 
@@ -41,7 +42,7 @@ class EnrollmentRepository @Inject constructor(
         val token = userPreferences.getToken().first()
         if (token.isEmpty()) return Resource.Error("Token manquant")
         return safeApiCall {
-            remoteDataSource.markLeconAsCompleted(token, coursId, leconId)
+            enrollmentApiService.markLeconAsCompleted("Bearer $token", coursId, LeconCompletionRequest(leconId))
         }
     }
 
@@ -49,7 +50,7 @@ class EnrollmentRepository @Inject constructor(
         val token = userPreferences.getToken().first()
         if (token.isEmpty()) return Resource.Error("Token manquant")
         return safeApiCall {
-            remoteDataSource.unmarkLeconAsCompleted(token, coursId, leconId)
+            enrollmentApiService.unmarkLeconAsCompleted("Bearer $token", coursId, leconId)
         }
     }
 
@@ -57,7 +58,7 @@ class EnrollmentRepository @Inject constructor(
         val token = userPreferences.getToken().first()
         if (token.isEmpty()) return Resource.Error("Token manquant")
         return safeApiCall {
-            remoteDataSource.getCompletedLeconIds(token, coursId)
+            enrollmentApiService.getCompletedLeconIds("Bearer $token", coursId)
         }
     }
 }

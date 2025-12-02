@@ -1,14 +1,14 @@
 package com.example.kawi_niveau_mobile_app.data.repository
 
 import com.example.kawi_niveau_mobile_app.data.UserPreferences
-import com.example.kawi_niveau_mobile_app.data.network.RemoteDataSource
+import com.example.kawi_niveau_mobile_app.data.network.CoursApiService
 import com.example.kawi_niveau_mobile_app.data.network.Resource
 import com.example.kawi_niveau_mobile_app.data.responses.CoursResponse
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 class CoursRepository @Inject constructor(
-    private val remoteDataSource: RemoteDataSource,
+    private val coursApiService: CoursApiService,
     private val userPreferences: UserPreferences
 ) : BaseRepository() {
 
@@ -16,7 +16,7 @@ class CoursRepository @Inject constructor(
         val token = userPreferences.getToken().first()
         if (token.isEmpty()) return Resource.Error("Token manquant")
         return safeApiCall {
-            remoteDataSource.getAllCours(token)
+            coursApiService.getAllCours("Bearer $token")
         }
     }
 
@@ -24,7 +24,7 @@ class CoursRepository @Inject constructor(
         val token = userPreferences.getToken().first()
         if (token.isEmpty()) return Resource.Error("Token manquant")
         return safeApiCall {
-            remoteDataSource.getCoursById(token, id)
+            coursApiService.getCoursById("Bearer $token", id)
         }
     }
 }

@@ -6,7 +6,6 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStoreFile
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import com.example.kawi_niveau_mobile_app.BuildConfig
-import com.example.kawi_niveau_mobile_app.data.network.ApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -53,8 +52,44 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideApiService(retrofit: Retrofit): ApiService {
-        return retrofit.create(ApiService::class.java)
+    fun provideAuthApiService(retrofit: Retrofit): com.example.kawi_niveau_mobile_app.data.network.AuthApiService {
+        return retrofit.create(com.example.kawi_niveau_mobile_app.data.network.AuthApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideProfileApiService(retrofit: Retrofit): com.example.kawi_niveau_mobile_app.data.network.ProfileApiService {
+        return retrofit.create(com.example.kawi_niveau_mobile_app.data.network.ProfileApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCoursApiService(retrofit: Retrofit): com.example.kawi_niveau_mobile_app.data.network.CoursApiService {
+        return retrofit.create(com.example.kawi_niveau_mobile_app.data.network.CoursApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideEnrollmentApiService(retrofit: Retrofit): com.example.kawi_niveau_mobile_app.data.network.EnrollmentApiService {
+        return retrofit.create(com.example.kawi_niveau_mobile_app.data.network.EnrollmentApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideModuleApiService(retrofit: Retrofit): com.example.kawi_niveau_mobile_app.data.network.ModuleApiService {
+        return retrofit.create(com.example.kawi_niveau_mobile_app.data.network.ModuleApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideLeconApiService(retrofit: Retrofit): com.example.kawi_niveau_mobile_app.data.network.LeconApiService {
+        return retrofit.create(com.example.kawi_niveau_mobile_app.data.network.LeconApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideQuizApiService(retrofit: Retrofit): com.example.kawi_niveau_mobile_app.data.network.QuizApiService {
+        return retrofit.create(com.example.kawi_niveau_mobile_app.data.network.QuizApiService::class.java)
     }
 
     @Provides

@@ -1,7 +1,11 @@
 package com.example.kawi_niveau_mobile_app.data.repository
 
 import com.example.kawi_niveau_mobile_app.data.UserPreferences
-import com.example.kawi_niveau_mobile_app.data.network.RemoteDataSource
+import com.example.kawi_niveau_mobile_app.data.network.AuthApiService
+import com.example.kawi_niveau_mobile_app.data.network.ProfileApiService
+import com.example.kawi_niveau_mobile_app.data.network.LoginRequest
+import com.example.kawi_niveau_mobile_app.data.network.OAuth2LoginRequest
+import com.example.kawi_niveau_mobile_app.data.network.RegisterRequest
 import com.example.kawi_niveau_mobile_app.data.network.Resource
 import com.example.kawi_niveau_mobile_app.data.responses.LoginResponse
 import com.example.kawi_niveau_mobile_app.data.responses.UploadResponse
@@ -10,13 +14,14 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 
 class AuthRepository @Inject constructor(
-    private val remoteDataSource: RemoteDataSource,
+    private val authApiService: AuthApiService,
+    private val profileApiService: ProfileApiService,
     private val userPreferences: UserPreferences
 ) : BaseRepository() {
 
     suspend fun login(email: String, password: String): Resource<LoginResponse> {
         return safeApiCall {
-            remoteDataSource.login(email, password)
+            authApiService.login(LoginRequest(email, password))
         }.also { result ->
             if (result is Resource.Success) {
                 // Vérifier le rôle
@@ -32,7 +37,7 @@ class AuthRepository @Inject constructor(
     suspend fun loginWithGoogle(googleIdToken: String): Resource<LoginResponse> {
         android.util.Log.d("AuthRepository", "Sending Google token to backend")
         return safeApiCall {
-            remoteDataSource.loginWithGoogle(googleIdToken)
+            authApiService.loginWithGoogle(OAuth2LoginRequest(googleIdToken))
         }.also { result ->
             when (result) {
                 is Resource.Success -> {
@@ -69,13 +74,13 @@ class AuthRepository @Inject constructor(
         phoneNumber: String?
     ): Resource<LoginResponse> {
         return safeApiCall {
-            remoteDataSource.register(firstName, lastName, dateOfBirth, email, password, phoneNumber)
+            authApiService.register(RegisterRequest(firstName, lastName, dateOfBirth, email, password, phoneNumber))
         }
     }
 
     suspend fun uploadImageAfterRegister(file: MultipartBody.Part, email: RequestBody): Resource<UploadResponse> {
         return safeApiCall {
-            remoteDataSource.uploadImageAfterRegister(file, email)
+            profileApiService.uploadImageAfterRegister(file, email)
         }
     }
 }
