@@ -6,6 +6,9 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStoreFile
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import com.example.kawi_niveau_mobile_app.BuildConfig
+import com.example.kawi_niveau_mobile_app.data.local.AppDatabase
+import com.example.kawi_niveau_mobile_app.data.local.dao.UserDao
+import androidx.room.Room
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -98,5 +101,23 @@ object NetworkModule {
         return PreferenceDataStoreFactory.create(
             produceFile = { appContext.preferencesDataStoreFile("user_prefs") }
         )
+    }
+
+    @Provides
+    @Singleton
+    fun provideAppDatabase(@ApplicationContext appContext: Context): AppDatabase {
+        return Room.databaseBuilder(
+            appContext,
+            AppDatabase::class.java,
+            "kawi_niveau_db"
+        )
+            .fallbackToDestructiveMigration()
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideUserDao(database: AppDatabase): UserDao {
+        return database.userDao()
     }
 }
