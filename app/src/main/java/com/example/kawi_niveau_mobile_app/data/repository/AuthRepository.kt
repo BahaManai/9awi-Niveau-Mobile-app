@@ -26,11 +26,13 @@ class AuthRepository @Inject constructor(
             authApiService.login(LoginRequest(email, password))
         }.also { result ->
             if (result is Resource.Success) {
-                // Vérifier le rôle
-                if (result.data.role != "ETUDIANT") {
-                    android.util.Log.e("AuthRepository", "Access denied - Role is ${result.data.role}, expected ETUDIANT")
+                // Accepter ETUDIANT et FORMATEUR
+                val role = result.data.role
+                if (role != "ETUDIANT" && role != "FORMATEUR") {
+                    android.util.Log.e("AuthRepository", "Access denied - Role is $role, expected ETUDIANT or FORMATEUR")
                     return@also
                 }
+                android.util.Log.d("AuthRepository", "Login successful - Role: $role")
                 // Sauvegarder dans Room
                 result.data.token?.let { token ->
                     saveUserSession(token)
@@ -65,9 +67,10 @@ class AuthRepository @Inject constructor(
                     android.util.Log.d("AuthRepository", "Backend success - Token: ${if (result.data.token != null) "present" else "null"}")
                     android.util.Log.d("AuthRepository", "User role: ${result.data.role}")
                     
-                    // Vérifier le rôle
-                    if (result.data.role != "ETUDIANT") {
-                        android.util.Log.e("AuthRepository", "Access denied - Role is ${result.data.role}, expected ETUDIANT")
+                    // Accepter ETUDIANT et FORMATEUR
+                    val role = result.data.role
+                    if (role != "ETUDIANT" && role != "FORMATEUR") {
+                        android.util.Log.e("AuthRepository", "Access denied - Role is $role, expected ETUDIANT or FORMATEUR")
                         return@also
                     }
                     

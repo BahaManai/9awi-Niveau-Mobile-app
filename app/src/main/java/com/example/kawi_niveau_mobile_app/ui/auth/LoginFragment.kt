@@ -1,6 +1,7 @@
 package com.example.kawi_niveau_mobile_app.ui.auth
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,6 +11,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.example.kawi_niveau_mobile_app.MainActivity
 import com.example.kawi_niveau_mobile_app.R
 import com.example.kawi_niveau_mobile_app.data.network.Resource
 import com.example.kawi_niveau_mobile_app.databinding.FragmentLoginBinding
@@ -129,20 +131,25 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
                     Log.d("LoginFragment", "Login success - Token: ${if (result.data.token != null) "present" else "null"}")
                     Log.d("LoginFragment", "User role: ${result.data.role}")
                     
-                    // Vérifier le rôle
-                    if (result.data.role != "ETUDIANT") {
-                        Log.e("LoginFragment", "Access denied - Role is ${result.data.role}")
+                    // Accepter ETUDIANT et FORMATEUR
+                    val role = result.data.role
+                    if (role != "ETUDIANT" && role != "FORMATEUR") {
+                        Log.e("LoginFragment", "Access denied - Role is $role")
                         Toast.makeText(
                             requireContext(),
-                            "Accès refusé. Cette application est réservée aux étudiants.",
+                            "Accès refusé. Rôle non autorisé: $role",
                             Toast.LENGTH_LONG
                         ).show()
                         return@observe
                     }
                     
                     if (result.data.token != null) {
-                        Log.d("LoginFragment", "Navigating to home")
-                        findNavController().navigate(R.id.action_loginFragment_to_homeActivity)
+                        Log.d("LoginFragment", "Login successful - Role: $role, navigating to MainActivity")
+                        // Naviguer vers MainActivity qui redirigera selon le rôle
+                        val intent = Intent(requireActivity(), MainActivity::class.java)
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                        startActivity(intent)
+                        requireActivity().finish()
                     } else {
                         Log.e("LoginFragment", "Token is null in success response")
                         result.data.message?.let {
