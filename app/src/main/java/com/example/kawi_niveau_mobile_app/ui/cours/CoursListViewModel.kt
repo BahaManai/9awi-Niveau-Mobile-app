@@ -59,7 +59,6 @@ class CoursListViewModel @Inject constructor(
                         is Resource.Success -> {
                             val enrollments = enrollmentsResult.data
                             
-                            // Combiner cours et enrollments
                             val coursWithEnrollments = coursResult.data.map { cours ->
                                 val enrollment = enrollments.find { it.coursId == cours.id }
                                 CoursWithEnrollment(
@@ -70,12 +69,9 @@ class CoursListViewModel @Inject constructor(
                             }
                             
                             _coursList.postValue(Resource.Success(coursWithEnrollments))
-                            
-                            // Calculer les statistiques
                             calculateStats(enrollments)
                         }
                         is Resource.Error -> {
-                            // Même si les enrollments échouent, afficher les cours
                             val coursWithEnrollments = coursResult.data.map { cours ->
                                 CoursWithEnrollment(cours = cours)
                             }
@@ -96,17 +92,13 @@ class CoursListViewModel @Inject constructor(
         val enrolledCount = enrollments.size
         val completedCount = enrollments.count { it.progress >= 100f }
         
-        // Calculer la progression globale
         val overallProgress = if (enrollments.isNotEmpty()) {
             (enrollments.sumOf { it.progress.toDouble() } / enrollments.size).toInt()
         } else {
             0
         }
         
-        // Calculer les points (10 points par % de progression)
         val totalPoints = enrollments.sumOf { (it.progress * 10).toInt() }
-        
-        // Calculer le niveau (1 niveau tous les 500 points)
         val userLevel = (totalPoints / 500) + 1
         
         _userStats.postValue(
@@ -127,7 +119,6 @@ class CoursListViewModel @Inject constructor(
             _enrollmentResult.postValue(result)
             
             if (result is Resource.Success) {
-                // Recharger la liste des cours
                 loadCours()
             }
         }

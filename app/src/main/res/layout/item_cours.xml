@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="2dp"
+    app:strokeWidth="0dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Thumbnail -->
+        <ImageView
+            android:id="@+id/imageViewThumbnail"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:scaleType="centerCrop"
+            android:background="@drawable/cours_placeholder_gradient"
+            android:contentDescription="@string/course_thumbnail"
+            tools:src="@drawable/ic_course_placeholder" />
+
+        <!-- Content -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Header -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/textViewCategorie"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    app:chipBackgroundColor="@color/primary_light"
+                    app:chipStrokeWidth="0dp"
+                    tools:text="Programmation" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipArchived"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/archived"
+                    android:textSize="12sp"
+                    android:visibility="gone"
+                    app:chipBackgroundColor="@color/warning_light"
+                    app:chipStrokeWidth="0dp"
+                    tools:visibility="visible" />
+
+            </LinearLayout>
+
+            <!-- Title -->
+            <TextView
+                android:id="@+id/textViewTitre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/text_primary"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:maxLines="2"
+                android:ellipsize="end"
+                tools:text="Introduction à Android" />
+
+            <!-- Description -->
+            <TextView
+                android:id="@+id/textViewDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/text_secondary"
+                android:textSize="14sp"
+                android:maxLines="3"
+                android:ellipsize="end"
+                tools:text="Apprenez les bases du développement Android avec Kotlin" />
+
+            <!-- Date -->
+            <TextView
+                android:id="@+id/textViewDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/text_tertiary"
+                android:textSize="12sp"
+                android:drawablePadding="4dp"
+                app:drawableStartCompat="@drawable/ic_calendar"
+                app:drawableTint="@color/text_tertiary"
+                tools:text="15 Jan 2025" />
+
+            <!-- Divider -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="12dp"
+                android:background="@color/divider" />
+
+            <!-- Actions -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal"
+                android:gravity="end">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/buttonEdit"
+                    style="@style/Widget.Material3.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/edit"
+                    android:textSize="16sp"
+                    android:textColor="@color/primary"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    app:icon="@drawable/ic_edit"
+                    app:iconTint="@color/primary" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/buttonArchive"
+                    style="@style/Widget.Material3.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/archive"
+                    android:textSize="16sp"
+                    android:textColor="@color/warning"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    app:icon="@drawable/ic_archive"
+                    app:iconTint="@color/warning" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

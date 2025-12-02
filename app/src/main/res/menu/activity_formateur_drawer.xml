@@ -11,7 +11,7 @@
         <item
             android:id="@+id/nav_formateur_cours"
             android:icon="@drawable/ic_courses"
-            android:title="Mes Cours" />
+            android:title="Gestion de cours" />
         <item
             android:id="@+id/nav_formateur_profile"
             android:icon="@drawable/ic_profile"

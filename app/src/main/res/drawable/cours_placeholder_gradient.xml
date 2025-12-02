@@ -1,9 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <gradient
-        android:angle="135"
-        android:startColor="#64B5F6"
-        android:centerColor="#42A5F5"
-        android:endColor="#2e87eb"
-        android:type="linear" />
-</shape>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Gradient de fond coloré moderne -->
+    <item>
+        <shape>
+            <gradient
+                android:angle="135"
+                android:startColor="#667eea"
+                android:centerColor="#764ba2"
+                android:endColor="#f093fb"
+                android:type="linear" />
+        </shape>
+    </item>
+    
+    <!-- Cercle décoratif en haut à droite -->
+    <item
+        android:width="100dp"
+        android:height="100dp"
+        android:gravity="top|end"
+        android:top="-30dp"
+        android:right="-30dp">
+        <shape android:shape="oval">
+            <solid android:color="#30FFFFFF" />
+        </shape>
+    </item>
+    
+    <!-- Cercle décoratif en bas à gauche -->
+    <item
+        android:width="120dp"
+        android:height="120dp"
+        android:gravity="bottom|start"
+        android:bottom="-40dp"
+        android:left="-40dp">
+        <shape android:shape="oval">
+            <solid android:color="#20FFFFFF" />
+        </shape>
+    </item>
+    
+    <!-- Icône de livre au centre -->
+    <item
+        android:width="120dp"
+        android:height="120dp"
+        android:gravity="center"
+        android:drawable="@drawable/ic_book_education" />
+</layer-list>

@@ -51,14 +51,12 @@ class CoursListFragment : Fragment() {
     private fun setupRecyclerView() {
         coursAdapter = CoursAdapter(
             onCoursClick = { coursId ->
-                // Navigation vers le détail du cours
                 val bundle = Bundle().apply {
                     putLong("coursId", coursId)
                 }
                 findNavController().navigate(R.id.coursDetailFragment, bundle)
             },
             onEnrollClick = { coursId ->
-                // Inscription au cours
                 viewModel.enrollInCourse(coursId)
             }
         )
@@ -70,47 +68,31 @@ class CoursListFragment : Fragment() {
     }
 
     private fun setupSearchAndFilters() {
-        // Recherche
-        binding.editTextSearch.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(s: Editable?) {
-                applyFilters()
-            }
-        })
     }
 
     private fun observeViewModel() {
-        // Observer la liste des cours
         viewModel.coursList.observe(viewLifecycleOwner) { result ->
             when (result) {
                 is Resource.Loading -> {
                     binding.progressBar.visibility = View.VISIBLE
                     binding.recyclerViewCours.visibility = View.GONE
-                    binding.layoutEmptyState.visibility = View.GONE
                 }
                 is Resource.Success -> {
                     binding.progressBar.visibility = View.GONE
-
                     allCours = result.data
                     filteredCours = result.data
 
                     if (result.data.isEmpty()) {
                         binding.recyclerViewCours.visibility = View.GONE
-                        binding.layoutEmptyState.visibility = View.VISIBLE
                     } else {
                         binding.recyclerViewCours.visibility = View.VISIBLE
-                        binding.layoutEmptyState.visibility = View.GONE
                         coursAdapter.submitList(result.data)
-
-                        // Extraire les catégories
                         extractCategories(result.data)
                     }
                 }
                 is Resource.Error -> {
                     binding.progressBar.visibility = View.GONE
                     binding.recyclerViewCours.visibility = View.GONE
-                    binding.layoutEmptyState.visibility = View.VISIBLE
                     Toast.makeText(
                         requireContext(),
                         "Erreur: ${result.message}",
@@ -120,21 +102,9 @@ class CoursListFragment : Fragment() {
             }
         }
 
-        // Observer les statistiques
-        viewModel.userStats.observe(viewLifecycleOwner) { stats ->
-            binding.textViewEnrolledCount.text = stats.enrolledCount.toString()
-            binding.textViewCompletedCount.text = stats.completedCount.toString()
-            binding.textViewOverallProgress.text = "${stats.overallProgress}%"
-            binding.textViewUserLevel.text = "Niveau ${stats.userLevel}"
-            binding.textViewTotalPoints.text = "${stats.totalPoints} pts"
-        }
-
-        // Observer le résultat d'inscription
         viewModel.enrollmentResult.observe(viewLifecycleOwner) { result ->
             when (result) {
-                is Resource.Loading -> {
-                    // Optionnel: afficher un loading
-                }
+                is Resource.Loading -> {}
                 is Resource.Success -> {
                     Toast.makeText(
                         requireContext(),
@@ -151,25 +121,19 @@ class CoursListFragment : Fragment() {
                     ).show()
                     viewModel.resetEnrollmentResult()
                 }
-                null -> {
-                    // Pas de résultat
-                }
+                null -> {}
             }
         }
     }
 
     private fun extractCategories(coursList: List<CoursWithEnrollment>) {
-        // Méthode conservée pour compatibilité mais ne fait plus rien
-        // Le filtre catégorie a été supprimé de l'UI
     }
 
     private fun applyFilters() {
-        val searchQuery = binding.editTextSearch.text.toString().lowercase()
+        val searchQuery = ""
 
         filteredCours = allCours.filter { coursWithEnrollment ->
             val cours = coursWithEnrollment.cours
-
-            // Filtre par recherche uniquement
             searchQuery.isEmpty() ||
                     cours.titre.lowercase().contains(searchQuery) ||
                     cours.description.lowercase().contains(searchQuery)
@@ -177,13 +141,10 @@ class CoursListFragment : Fragment() {
 
         coursAdapter.submitList(filteredCours)
 
-        // Afficher empty state si aucun résultat
         if (filteredCours.isEmpty() && allCours.isNotEmpty()) {
             binding.recyclerViewCours.visibility = View.GONE
-            binding.layoutEmptyState.visibility = View.VISIBLE
         } else {
             binding.recyclerViewCours.visibility = View.VISIBLE
-            binding.layoutEmptyState.visibility = View.GONE
         }
     }
 

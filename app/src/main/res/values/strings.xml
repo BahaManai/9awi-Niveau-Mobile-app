@@ -24,4 +24,41 @@
     <string name="menu_profile">Mon Profil</string>
     <string name="menu_logout">Déconnexion</string>
     <string name="menu_account">Compte</string>
+    
+    <!-- Cours -->
+    <string name="no_courses">Aucun cours</string>
+    <string name="no_courses_yet">Vous n\'avez pas encore créé de cours</string>
+    <string name="create_first_course">Créez votre premier cours pour commencer</string>
+    <string name="add_course">Nouveau Cours</string>
+    <string name="course_title">Titre du cours *</string>
+    <string name="course_description">Description (optionnelle)</string>
+    <string name="category">Catégorie</string>
+    <string name="course_image">Image du cours (optionnelle)</string>
+    <string name="course_thumbnail">Miniature du cours</string>
+    <string name="image_preview">Aperçu de l\'image</string>
+    <string name="select_image">Choisir une image</string>
+    <string name="image_format_hint">Formats acceptés : PNG, JPG (max 5MB)</string>
+    <string name="edit">Modifier</string>
+    <string name="archive">Archiver</string>
+    <string name="unarchive">📂 Désarchiver</string>
+    <string name="archived">Archivé</string>
+    <string name="save">Enregistrer</string>
+    <string name="cancel">Annuler</string>
+    <string name="remove">Supprimer</string>
+    <string name="description">Description</string>
+    <string name="modules">Modules</string>
+    <string name="modules_coming_soon">Les modules seront implémentés dans le sprint suivant</string>
+    <string name="course_list_title">Liste des cours</string>
+    <string name="my_courses">Gestion de cours</string>
+    <string name="loading">Chargement...</string>
+    <string name="error_loading_courses">Erreur lors du chargement des cours</string>
+    <string name="course_created">✅ Cours créé avec succès</string>
+    <string name="course_updated">✅ Cours modifié avec succès</string>
+    <string name="course_archived">✅ Cours archivé</string>
+    <string name="course_unarchived">✅ Cours désarchivé</string>
+    <string name="required_field">* Champ obligatoire</string>
+    <string name="upload_error">⚠️ Impossible d\'uploader l\'image</string>
+    <string name="create_without_image">Créer sans image ?</string>
+    <string name="yes">Oui</string>
+    <string name="no">Non</string>
 </resources>

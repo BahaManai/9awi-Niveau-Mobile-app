@@ -35,14 +35,12 @@ class ModuleDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Récupérer l'argument moduleId
         moduleId = arguments?.getLong("moduleId") ?: 0L
 
         setupToolbar()
         setupRecyclerView()
         observeViewModel()
 
-        // Charger les données
         viewModel.loadModuleDetail(moduleId)
     }
 
@@ -54,9 +52,7 @@ class ModuleDetailFragment : Fragment() {
 
     private fun setupRecyclerView() {
         leconAdapter = LeconAdapter(
-            onLeconClick = { leconId ->
-                // Optionnel : Navigation vers détail de la leçon
-            },
+            onLeconClick = { leconId -> },
             onToggleCompletion = { leconId, currentlyCompleted ->
                 viewModel.toggleLeconCompletion(leconId, currentlyCompleted)
             }
@@ -69,7 +65,6 @@ class ModuleDetailFragment : Fragment() {
     }
 
     private fun observeViewModel() {
-        // Observer le module
         viewModel.module.observe(viewLifecycleOwner) { result ->
             when (result) {
                 is Resource.Loading -> {
@@ -93,7 +88,6 @@ class ModuleDetailFragment : Fragment() {
             }
         }
 
-        // Observer les leçons
         viewModel.lecons.observe(viewLifecycleOwner) { result ->
             when (result) {
                 is Resource.Loading -> {
@@ -113,7 +107,6 @@ class ModuleDetailFragment : Fragment() {
                         leconAdapter.submitList(result.data)
                     }
                     
-                    // Mettre à jour l'état du bouton quiz quand les leçons changent
                     updateQuizButtonState()
                 }
                 is Resource.Error -> {
@@ -129,12 +122,9 @@ class ModuleDetailFragment : Fragment() {
             }
         }
 
-        // Observer le résultat de complétion
         viewModel.completionResult.observe(viewLifecycleOwner) { result ->
             when (result) {
-                is Resource.Loading -> {
-                    // Optionnel : afficher un loading
-                }
+                is Resource.Loading -> {}
                 is Resource.Success -> {
                     Toast.makeText(
                         requireContext(),
@@ -155,7 +145,6 @@ class ModuleDetailFragment : Fragment() {
             }
         }
 
-        // Observer le quiz
         viewModel.quiz.observe(viewLifecycleOwner) { result ->
             when (result) {
                 is Resource.Loading -> {
@@ -175,11 +164,9 @@ class ModuleDetailFragment : Fragment() {
                         binding.textViewQuizDescription.text = quiz.description ?: "Aucune description"
                         binding.textViewQuizQuestions.text = "${quiz.questions?.size ?: 0} question(s)"
                         
-                        // Mettre à jour l'état du bouton
                         updateQuizButtonState()
                         
                         binding.buttonPasserQuiz.setOnClickListener {
-                            // Navigation vers QuizViewerFragment
                             try {
                                 val action = ModuleDetailFragmentDirections.actionModuleDetailToQuizViewer(
                                     quizId = quiz.id,
@@ -192,7 +179,6 @@ class ModuleDetailFragment : Fragment() {
                                     "Erreur de navigation: ${e.message}",
                                     Toast.LENGTH_SHORT
                                 ).show()
-                                android.util.Log.e("ModuleDetailFragment", "Navigation error", e)
                             }
                         }
                     } else {
@@ -210,14 +196,9 @@ class ModuleDetailFragment : Fragment() {
     }
 
     private fun updateQuizButtonState() {
-        // Vérifier si le quiz est visible
         if (binding.layoutQuiz.visibility != View.VISIBLE) return
         
-        // Vérifier si toutes les leçons sont complétées
         val allCompleted = viewModel.allLeconsCompleted()
-        
-        // Debug: afficher l'état
-        android.util.Log.d("ModuleDetailFragment", "updateQuizButtonState: allCompleted = $allCompleted")
         
         if (allCompleted) {
             binding.buttonPasserQuiz.isEnabled = true

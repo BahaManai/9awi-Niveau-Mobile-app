@@ -35,8 +35,18 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(logging: HttpLoggingInterceptor): OkHttpClient {
+    fun provideAuthInterceptor(userDao: UserDao): com.example.kawi_niveau_mobile_app.data.network.AuthInterceptor {
+        return com.example.kawi_niveau_mobile_app.data.network.AuthInterceptor(userDao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideOkHttpClient(
+        logging: HttpLoggingInterceptor,
+        authInterceptor: com.example.kawi_niveau_mobile_app.data.network.AuthInterceptor
+    ): OkHttpClient {
         return OkHttpClient.Builder()
+            .addInterceptor(authInterceptor)
             .addInterceptor(logging)
             .connectTimeout(30, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)

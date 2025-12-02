@@ -51,9 +51,10 @@ class CoursDetailFragment : Fragment() {
     }
 
     private fun setupToolbar() {
-        binding.toolbar.setNavigationOnClickListener {
-            findNavController().navigateUp()
-        }
+        // TODO: Uncomment when toolbar is added to layout
+        // binding.toolbar.setNavigationOnClickListener {
+        //     findNavController().navigateUp()
+        // }
     }
 
     private fun setupRecyclerView() {
@@ -65,10 +66,11 @@ class CoursDetailFragment : Fragment() {
             findNavController().navigate(R.id.moduleDetailFragment, bundle)
         }
 
-        binding.recyclerViewModules.apply {
-            layoutManager = LinearLayoutManager(requireContext())
-            adapter = moduleAdapter
-        }
+        // TODO: Uncomment when recyclerView is added to layout
+        // binding.recyclerViewModules.apply {
+        //     layoutManager = LinearLayoutManager(requireContext())
+        //     adapter = moduleAdapter
+        // }
     }
 
     private fun observeViewModel() {
@@ -88,15 +90,16 @@ class CoursDetailFragment : Fragment() {
                     binding.textViewFormateur.text = cours.formateurNom
 
                     // Image
-                    if (!cours.thumbnailUrl.isNullOrEmpty()) {
-                        val imageUrl = "${BuildConfig.API_BASE_URL}images/cours/${cours.thumbnailUrl}"
-                        Glide.with(this)
-                            .load(imageUrl)
-                            .placeholder(R.drawable.cours_placeholder_gradient)
-                            .error(R.drawable.cours_placeholder_gradient)
-                            .centerCrop()
-                            .into(binding.imageViewCoursHeader)
-                    }
+                    // TODO: Uncomment when imageView is added to layout
+                    // if (!cours.thumbnailUrl.isNullOrEmpty()) {
+                    //     val imageUrl = "${BuildConfig.API_BASE_URL}images/cours/${cours.thumbnailUrl}"
+                    //     Glide.with(this)
+                    //         .load(imageUrl)
+                    //         .placeholder(R.drawable.cours_placeholder_gradient)
+                    //         .error(R.drawable.cours_placeholder_gradient)
+                    //         .centerCrop()
+                    //         .into(binding.imageViewCoursHeader)
+                    // }
                 }
                 is Resource.Error -> {
                     binding.progressBar.visibility = View.GONE
@@ -110,93 +113,97 @@ class CoursDetailFragment : Fragment() {
         }
 
         // Observer l'enrollment
-        viewModel.enrollment.observe(viewLifecycleOwner) { result ->
-            when (result) {
-                is Resource.Success -> {
-                    val enrollment = result.data
-                    if (enrollment != null) {
-                        // Inscrit
-                        binding.cardViewProgress.visibility = View.VISIBLE
-                        binding.buttonEnroll.visibility = View.GONE
-
-                        binding.textViewProgress.text = "${enrollment.progress.toInt()}%"
-                        binding.progressBarCours.progress = enrollment.progress.toInt()
-                        binding.textViewLecons.text = "${enrollment.completedLecons} / ${enrollment.totalLecons} leçons complétées"
-                    } else {
-                        // Pas inscrit
-                        binding.cardViewProgress.visibility = View.GONE
-                        binding.buttonEnroll.visibility = View.VISIBLE
-                    }
-                }
-                else -> {}
-            }
-        }
+        // TODO: Uncomment when enrollment views are added to layout
+        // viewModel.enrollment.observe(viewLifecycleOwner) { result ->
+        //     when (result) {
+        //         is Resource.Success -> {
+        //             val enrollment = result.data
+        //             if (enrollment != null) {
+        //                 // Inscrit
+        //                 binding.cardViewProgress.visibility = View.VISIBLE
+        //                 binding.buttonEnroll.visibility = View.GONE
+        //
+        //                 binding.textViewProgress.text = "${enrollment.progress.toInt()}%"
+        //                 binding.progressBarCours.progress = enrollment.progress.toInt()
+        //                 binding.textViewLecons.text = "${enrollment.completedLecons} / ${enrollment.totalLecons} leçons complétées"
+        //             } else {
+        //                 // Pas inscrit
+        //                 binding.cardViewProgress.visibility = View.GONE
+        //                 binding.buttonEnroll.visibility = View.VISIBLE
+        //             }
+        //         }
+        //         else -> {}
+        //     }
+        // }
 
         // Observer les modules
-        viewModel.modules.observe(viewLifecycleOwner) { result ->
-            when (result) {
-                is Resource.Loading -> {
-                    binding.progressBarModules.visibility = View.VISIBLE
-                    binding.recyclerViewModules.visibility = View.GONE
-                    binding.textViewNoModules.visibility = View.GONE
-                }
-                is Resource.Success -> {
-                    binding.progressBarModules.visibility = View.GONE
-
-                    if (result.data.isEmpty()) {
-                        binding.recyclerViewModules.visibility = View.GONE
-                        binding.textViewNoModules.visibility = View.VISIBLE
-                    } else {
-                        binding.recyclerViewModules.visibility = View.VISIBLE
-                        binding.textViewNoModules.visibility = View.GONE
-                        moduleAdapter.submitList(result.data)
-                    }
-                }
-                is Resource.Error -> {
-                    binding.progressBarModules.visibility = View.GONE
-                    binding.recyclerViewModules.visibility = View.GONE
-                    binding.textViewNoModules.visibility = View.VISIBLE
-                }
-            }
-        }
+        // TODO: Uncomment when module views are added to layout
+        // viewModel.modules.observe(viewLifecycleOwner) { result ->
+        //     when (result) {
+        //         is Resource.Loading -> {
+        //             binding.progressBarModules.visibility = View.VISIBLE
+        //             binding.recyclerViewModules.visibility = View.GONE
+        //             binding.textViewNoModules.visibility = View.GONE
+        //         }
+        //         is Resource.Success -> {
+        //             binding.progressBarModules.visibility = View.GONE
+        //
+        //             if (result.data.isEmpty()) {
+        //                 binding.recyclerViewModules.visibility = View.GONE
+        //                 binding.textViewNoModules.visibility = View.VISIBLE
+        //             } else {
+        //                 binding.recyclerViewModules.visibility = View.VISIBLE
+        //                 binding.textViewNoModules.visibility = View.GONE
+        //                 moduleAdapter.submitList(result.data)
+        //             }
+        //         }
+        //         is Resource.Error -> {
+        //             binding.progressBarModules.visibility = View.GONE
+        //             binding.recyclerViewModules.visibility = View.GONE
+        //             binding.textViewNoModules.visibility = View.VISIBLE
+        //         }
+        //     }
+        // }
 
         // Observer le résultat d'inscription
-        viewModel.enrollmentResult.observe(viewLifecycleOwner) { result ->
-            when (result) {
-                is Resource.Loading -> {
-                    binding.buttonEnroll.isEnabled = false
-                    binding.buttonEnroll.text = "Inscription en cours..."
-                }
-                is Resource.Success -> {
-                    binding.buttonEnroll.isEnabled = true
-                    binding.buttonEnroll.text = "S'inscrire à ce cours"
-                    Toast.makeText(
-                        requireContext(),
-                        "🎉 Inscription réussie !",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    viewModel.resetEnrollmentResult()
-                }
-                is Resource.Error -> {
-                    binding.buttonEnroll.isEnabled = true
-                    binding.buttonEnroll.text = "S'inscrire à ce cours"
-                    Toast.makeText(
-                        requireContext(),
-                        "Erreur: ${result.message}",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    viewModel.resetEnrollmentResult()
-                }
-                null -> {
-                    binding.buttonEnroll.isEnabled = true
-                }
-            }
-        }
+        // TODO: Uncomment when enrollment button is added to layout
+        // viewModel.enrollmentResult.observe(viewLifecycleOwner) { result ->
+        //     when (result) {
+        //         is Resource.Loading -> {
+        //             binding.buttonEnroll.isEnabled = false
+        //             binding.buttonEnroll.text = "Inscription en cours..."
+        //         }
+        //         is Resource.Success -> {
+        //             binding.buttonEnroll.isEnabled = true
+        //             binding.buttonEnroll.text = "S'inscrire à ce cours"
+        //             Toast.makeText(
+        //                 requireContext(),
+        //                 "🎉 Inscription réussie !",
+        //                 Toast.LENGTH_SHORT
+        //             ).show()
+        //             viewModel.resetEnrollmentResult()
+        //         }
+        //         is Resource.Error -> {
+        //             binding.buttonEnroll.isEnabled = true
+        //             binding.buttonEnroll.text = "S'inscrire à ce cours"
+        //             Toast.makeText(
+        //                 requireContext(),
+        //                 "Erreur: ${result.message}",
+        //                 Toast.LENGTH_SHORT
+        //             ).show()
+        //             viewModel.resetEnrollmentResult()
+        //         }
+        //         null -> {
+        //             binding.buttonEnroll.isEnabled = true
+        //         }
+        //     }
+        // }
 
         // Bouton inscription
-        binding.buttonEnroll.setOnClickListener {
-            viewModel.enrollInCourse(coursId)
-        }
+        // TODO: Uncomment when enrollment button is added to layout
+        // binding.buttonEnroll.setOnClickListener {
+        //     viewModel.enrollInCourse(coursId)
+        // }
     }
 
     override fun onDestroyView() {

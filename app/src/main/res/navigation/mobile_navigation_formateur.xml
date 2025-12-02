@@ -13,9 +13,37 @@
 
     <fragment
         android:id="@+id/nav_formateur_cours"
-        android:name="com.example.kawi_niveau_mobile_app.ui.formateur.cours.FormateurCoursListFragment"
-        android:label="Mes Cours"
-        tools:layout="@layout/fragment_formateur_cours_list" />
+        android:name="com.example.kawi_niveau_mobile_app.ui.formateur.cours.CoursListFragment"
+        android:label="Gestion de cours"
+        tools:layout="@layout/fragment_cours_list">
+        <action
+            android:id="@+id/action_nav_formateur_cours_to_coursFormFragment"
+            app:destination="@id/coursFormFragment" />
+        <action
+            android:id="@+id/action_nav_formateur_cours_to_coursDetailFragment"
+            app:destination="@id/coursDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/coursFormFragment"
+        android:name="com.example.kawi_niveau_mobile_app.ui.formateur.cours.CoursFormFragment"
+        android:label="Formulaire Cours"
+        tools:layout="@layout/fragment_cours_form">
+        <argument
+            android:name="coursId"
+            app:argType="long"
+            android:defaultValue="-1L" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/coursDetailFragment"
+        android:name="com.example.kawi_niveau_mobile_app.ui.formateur.cours.CoursDetailFragment"
+        android:label="Détails du Cours"
+        tools:layout="@layout/fragment_cours_detail">
+        <argument
+            android:name="coursId"
+            app:argType="long" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_formateur_profile"
