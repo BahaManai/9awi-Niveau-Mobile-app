@@ -45,8 +45,9 @@ class CoursListFragment : Fragment() {
     private fun setupRecyclerView() {
         adapter = CoursAdapter(
             onItemClick = { cours ->
+                // Mise à jour de l'action vers la version Formateur
                 val action = CoursListFragmentDirections
-                    .actionNavFormateurCoursToCoursDetailFragment(cours.id)
+                    .actionNavFormateurCoursToFormateurCoursDetailFragment(cours.id)
                 findNavController().navigate(action)
             },
             onEditClick = { cours ->

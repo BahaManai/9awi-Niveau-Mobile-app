@@ -20,8 +20,8 @@
             android:id="@+id/action_nav_formateur_cours_to_coursFormFragment"
             app:destination="@id/coursFormFragment" />
         <action
-            android:id="@+id/action_nav_formateur_cours_to_coursDetailFragment"
-            app:destination="@id/coursDetailFragment" />
+            android:id="@+id/action_nav_formateur_cours_to_formateurCoursDetailFragment"
+            app:destination="@id/formateurCoursDetailFragment" />
     </fragment>
 
     <fragment
@@ -36,10 +36,10 @@
     </fragment>
 
     <fragment
-        android:id="@+id/coursDetailFragment"
-        android:name="com.example.kawi_niveau_mobile_app.ui.formateur.cours.CoursDetailFragment"
-        android:label="Détails du Cours"
-        tools:layout="@layout/fragment_cours_detail">
+        android:id="@+id/formateurCoursDetailFragment"
+        android:name="com.example.kawi_niveau_mobile_app.ui.formateur.cours.FormateurCoursDetailFragment"
+        android:label="Détails du Cours (Formateur)"
+        tools:layout="@layout/fragment_formateur_cours_detail">
         <argument
             android:name="coursId"
             app:argType="long" />

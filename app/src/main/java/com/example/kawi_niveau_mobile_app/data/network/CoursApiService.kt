@@ -11,32 +11,50 @@ import retrofit2.http.*
 interface CoursApiService {
     
     @GET("api/cours")
-    suspend fun getAllCours(): Response<List<CoursResponse>>
+    suspend fun getAllCours(
+        @Header("Authorization") token: String
+    ): Response<List<CoursResponse>>
     
     @GET("api/cours/mes-cours")
-    suspend fun getMesCours(): Response<List<CoursResponse>>
+    suspend fun getMesCours(
+        @Header("Authorization") token: String
+    ): Response<List<CoursResponse>>
     
     @GET("api/cours/{id}")
-    suspend fun getCoursById(@Path("id") id: Long): Response<CoursResponse>
+    suspend fun getCoursById(
+        @Header("Authorization") token: String,
+        @Path("id") id: Long
+    ): Response<CoursResponse>
     
     @POST("api/cours")
-    suspend fun createCours(@Body request: CoursRequest): Response<CoursResponse>
+    suspend fun createCours(
+        @Header("Authorization") token: String,
+        @Body request: CoursRequest
+    ): Response<CoursResponse>
     
     @PUT("api/cours/{id}")
     suspend fun updateCours(
+        @Header("Authorization") token: String,
         @Path("id") id: Long,
         @Body request: CoursRequest
     ): Response<CoursResponse>
     
     @PUT("api/cours/{id}/archive")
-    suspend fun archiveCours(@Path("id") id: Long): Response<MessageResponse>
+    suspend fun archiveCours(
+        @Header("Authorization") token: String,
+        @Path("id") id: Long
+    ): Response<MessageResponse>
     
     @PUT("api/cours/{id}/unarchive")
-    suspend fun unarchiveCours(@Path("id") id: Long): Response<MessageResponse>
+    suspend fun unarchiveCours(
+        @Header("Authorization") token: String,
+        @Path("id") id: Long
+    ): Response<MessageResponse>
     
     @Multipart
     @POST("images/cours/upload")
     suspend fun uploadThumbnail(
+        @Header("Authorization") token: String,
         @Part file: MultipartBody.Part
     ): Response<UploadResponse>
 }

@@ -16,7 +16,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
 import com.example.kawi_niveau_mobile_app.BuildConfig
 import com.example.kawi_niveau_mobile_app.R
-import com.example.kawi_niveau_mobile_app.data.UserPreferences
+import com.example.kawi_niveau_mobile_app.data.local.dao.UserDao
 import com.example.kawi_niveau_mobile_app.databinding.ActivityFormateurHomeBinding
 import com.example.kawi_niveau_mobile_app.ui.auth.AuthActivity
 import com.google.android.material.navigation.NavigationView
@@ -32,7 +32,7 @@ class FormateurHomeActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
 
     @Inject
-    lateinit var userPreferences: UserPreferences
+    lateinit var userDao: UserDao
     
     @Inject
     lateinit var userRepository: com.example.kawi_niveau_mobile_app.data.repository.UserRepository
@@ -115,7 +115,7 @@ class FormateurHomeActivity : AppCompatActivity() {
 
     private fun logout() {
         lifecycleScope.launch {
-            userPreferences.clearToken()
+            userDao.clearUser()
             val intent = Intent(this@FormateurHomeActivity, AuthActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)

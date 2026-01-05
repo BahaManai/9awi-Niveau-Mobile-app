@@ -10,27 +10,28 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.kawi_niveau_mobile_app.BuildConfig
 import com.example.kawi_niveau_mobile_app.R
-import com.example.kawi_niveau_mobile_app.databinding.FragmentCoursDetailBinding
+import com.example.kawi_niveau_mobile_app.databinding.FragmentFormateurCoursDetailBinding
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.*
 
 @AndroidEntryPoint
-class CoursDetailFragment : Fragment() {
+class FormateurCoursDetailFragment : Fragment() {
 
-    private var _binding: FragmentCoursDetailBinding? = null
+    private var _binding: FragmentFormateurCoursDetailBinding? = null
     private val binding get() = _binding!!
     
     private val viewModel: CoursViewModel by viewModels()
-    private val args: CoursDetailFragmentArgs by navArgs()
+    // Utilisation du nom généré correct : FormateurCoursDetailFragmentArgs
+    private val args: FormateurCoursDetailFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentCoursDetailBinding.inflate(inflater, container, false)
+        _binding = FragmentFormateurCoursDetailBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -39,6 +40,10 @@ class CoursDetailFragment : Fragment() {
         
         setupObservers()
         viewModel.loadCoursById(args.coursId)
+        
+        binding.buttonEditContent?.setOnClickListener {
+            Snackbar.make(binding.root, "Gestion des modules bientôt disponible", Snackbar.LENGTH_SHORT).show()
+        }
     }
 
     private fun setupObservers() {
