@@ -1,5 +1,7 @@
 package com.example.kawi_niveau_mobile_app.ui.formateur.cours
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,10 +9,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.kawi_niveau_mobile_app.BuildConfig
 import com.example.kawi_niveau_mobile_app.R
 import com.example.kawi_niveau_mobile_app.databinding.FragmentFormateurCoursDetailBinding
+import com.example.kawi_niveau_mobile_app.ui.cours.ModuleAdapter
+import com.example.kawi_niveau_mobile_app.utils.NiveauBadgeHelper
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
@@ -23,8 +28,8 @@ class FormateurCoursDetailFragment : Fragment() {
     private val binding get() = _binding!!
     
     private val viewModel: CoursViewModel by viewModels()
-    // Utilisation du nom généré correct : FormateurCoursDetailFragmentArgs
     private val args: FormateurCoursDetailFragmentArgs by navArgs()
+    private lateinit var moduleAdapter: ModuleAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,11 +43,38 @@ class FormateurCoursDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         
+        setupRecyclerView()
         setupObservers()
-        viewModel.loadCoursById(args.coursId)
+        setupButtons()
         
-        binding.buttonEditContent?.setOnClickListener {
-            Snackbar.make(binding.root, "Gestion des modules bientôt disponible", Snackbar.LENGTH_SHORT).show()
+        viewModel.loadCoursById(args.coursId)
+    }
+
+    private fun setupRecyclerView() {
+        moduleAdapter = ModuleAdapter { moduleId ->
+            // Vue en lecture seule - pas de navigation
+            Snackbar.make(binding.root, "Vue en lecture seule. Gérez les modules sur la plateforme web", Snackbar.LENGTH_SHORT).show()
+        }
+
+        binding.recyclerViewModules.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = moduleAdapter
+        }
+    }
+
+    private fun setupButtons() {
+        // Bouton pour gérer sur le web
+        binding.buttonManageWeb.setOnClickListener {
+            openWebPlatform()
+        }
+    }
+
+    private fun openWebPlatform() {
+        try {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("http://localhost:4200/formateur-dashboard"))
+            startActivity(intent)
+        } catch (e: Exception) {
+            Snackbar.make(binding.root, "Impossible d'ouvrir la plateforme web", Snackbar.LENGTH_SHORT).show()
         }
     }
 
@@ -54,6 +86,14 @@ class FormateurCoursDetailFragment : Fragment() {
                 textViewCategorie.text = cours.categorie ?: "Cours"
                 textViewFormateur.text = "Par ${cours.formateurNom}"
                 textViewDate.text = "Créé le ${formatDate(cours.createdAt)}"
+                
+                // Niveau de difficulté
+                val niveau = cours.getNiveauEnum()
+                NiveauBadgeHelper.setupNiveauBadge(textViewNiveau, niveau, requireContext())
+                
+                // Statistiques basiques
+                textViewStatNiveau.text = niveau.displayName
+                textViewStatCategorie.text = cours.categorie ?: "Général"
                 
                 chipArchived.visibility = if (cours.archived) View.VISIBLE else View.GONE
                 

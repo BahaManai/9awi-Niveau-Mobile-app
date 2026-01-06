@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide
 import com.example.kawi_niveau_mobile_app.BuildConfig
 import com.example.kawi_niveau_mobile_app.R
 import com.example.kawi_niveau_mobile_app.databinding.ItemCoursCardBinding
+import com.example.kawi_niveau_mobile_app.utils.NiveauBadgeHelper
 
 class CoursAdapter(
     private val onCoursClick: (Long) -> Unit,
@@ -43,6 +44,10 @@ class CoursAdapter(
 
             // Catégorie
             binding.textViewCategorie.text = cours.categorie ?: "Cours"
+
+            // Niveau de difficulté
+            val niveau = cours.getNiveauEnum()
+            NiveauBadgeHelper.setupNiveauBadge(binding.textViewNiveau, niveau, binding.root.context)
 
             // Formateur
             binding.textViewFormateur.text = cours.formateurNom

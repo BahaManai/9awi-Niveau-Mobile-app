@@ -48,6 +48,22 @@
                     app:chipStrokeWidth="0dp"
                     tools:text="Programmation" />
 
+                <TextView
+                    android:id="@+id/textViewNiveau"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:background="@drawable/niveau_badge_debutant"
+                    android:text="🟢 Débutant"
+                    android:textColor="#065F46" />
+
                 <View
                     android:layout_width="0dp"
                     android:layout_height="1dp"

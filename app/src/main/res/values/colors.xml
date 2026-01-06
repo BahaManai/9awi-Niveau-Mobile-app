@@ -15,8 +15,10 @@
     
     <!-- Couleurs de statut -->
     <color name="success_green">#4CAF50</color>
+    <color name="success">#10B981</color>
     <color name="accent_green">#4CAF50</color>
     <color name="warning_orange">#FF9800</color>
+    <color name="warning">#F59E0B</color>
     <color name="error_red">#F44336</color>
     
     <!-- Couleurs de texte -->
@@ -27,12 +29,28 @@
     <!-- Couleurs pour les cours -->
     <color name="primary">#2e87eb</color>
     <color name="primary_light">#E3F2FD</color>
-    <color name="warning">#FF9800</color>
     <color name="warning_light">#FFF3E0</color>
     <color name="error">#F44336</color>
     <color name="background_light">#F5F7FA</color>
     <color name="text_tertiary">#9E9E9E</color>
     <color name="divider">#E0E0E0</color>
+    
+    <!-- Couleurs des niveaux de difficulté -->
+    <color name="niveau_debutant">#10B981</color>
+    <color name="niveau_debutant_bg">#D1FAE5</color>
+    <color name="niveau_debutant_text">#065F46</color>
+    
+    <color name="niveau_intermediaire">#F59E0B</color>
+    <color name="niveau_intermediaire_bg">#FEF3C7</color>
+    <color name="niveau_intermediaire_text">#92400E</color>
+    
+    <color name="niveau_avance">#EF4444</color>
+    <color name="niveau_avance_bg">#FEE2E2</color>
+    <color name="niveau_avance_text">#991B1B</color>
+    
+    <color name="niveau_expert">#8B5CF6</color>
+    <color name="niveau_expert_bg">#EDE9FE</color>
+    <color name="niveau_expert_text">#5B21B6</color>
     
     <!-- Couleurs legacy (pour compatibilité) -->
     <color name="purple_200">#FFBB86FC</color>

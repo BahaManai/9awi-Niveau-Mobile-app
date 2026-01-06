@@ -16,5 +16,6 @@ data class UserEntity(
     val phoneNumber: String?,
     val provider: String?,
     val emailVerified: Boolean = false,
-    val createdAt: Long = System.currentTimeMillis()
+    val createdAt: Long = System.currentTimeMillis(),
+    val domaineSpecialisation: String?
 )

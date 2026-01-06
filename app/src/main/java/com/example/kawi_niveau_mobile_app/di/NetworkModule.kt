@@ -107,6 +107,18 @@ object NetworkModule {
 
     @Provides
     @Singleton
+    fun provideFormateurApiService(retrofit: Retrofit): com.example.kawi_niveau_mobile_app.data.network.FormateurApiService {
+        return retrofit.create(com.example.kawi_niveau_mobile_app.data.network.FormateurApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideParcoursApiService(retrofit: Retrofit): com.example.kawi_niveau_mobile_app.data.network.ParcoursApiService {
+        return retrofit.create(com.example.kawi_niveau_mobile_app.data.network.ParcoursApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
     fun providePreferencesDataStore(@ApplicationContext appContext: Context): DataStore<Preferences> {
         return PreferenceDataStoreFactory.create(
             produceFile = { appContext.preferencesDataStoreFile("user_prefs") }

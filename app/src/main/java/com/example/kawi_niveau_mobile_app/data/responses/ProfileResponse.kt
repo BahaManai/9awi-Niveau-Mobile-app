@@ -11,5 +11,6 @@ data class ProfileResponse(
     val profileImage: String?,
     val role: String,
     val createdAt: Long,
-    val phoneNumber: String?
+    val phoneNumber: String?,
+    val domaineSpecialisation: String?
 )

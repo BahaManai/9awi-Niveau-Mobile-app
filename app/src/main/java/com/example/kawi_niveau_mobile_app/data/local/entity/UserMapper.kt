@@ -15,6 +15,7 @@ fun ProfileResponse.toUserEntity(token: String): UserEntity {
         phoneNumber = this.phoneNumber,
         provider = this.provider,
         emailVerified = this.emailVerified,
-        createdAt = this.createdAt
+        createdAt = this.createdAt,
+        domaineSpecialisation = this.domaineSpecialisation
     )
 }

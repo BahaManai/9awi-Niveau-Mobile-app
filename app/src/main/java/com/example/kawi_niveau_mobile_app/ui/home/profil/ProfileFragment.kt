@@ -85,6 +85,14 @@ class ProfileFragment : Fragment() {
                         else -> profile.provider
                     }
                     
+                    // Domaine de spécialisation (seulement pour les formateurs)
+                    if (profile.role == "FORMATEUR" && !profile.domaineSpecialisation.isNullOrEmpty()) {
+                        binding.layoutDomaineSpecialisation.visibility = View.VISIBLE
+                        binding.textViewDomaineSpecialisation.text = profile.domaineSpecialisation
+                    } else {
+                        binding.layoutDomaineSpecialisation.visibility = View.GONE
+                    }
+                    
                     // Photo de profil
                     loadProfileImage(profile.profileImage)
                 }

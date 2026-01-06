@@ -78,20 +78,42 @@
                         android:textSize="24sp"
                         android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/textViewCategorie"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:background="@drawable/categorie_badge_bg"
-                        android:paddingStart="12dp"
-                        android:paddingEnd="12dp"
-                        android:paddingTop="6dp"
-                        android:paddingBottom="6dp"
-                        android:text="Catégorie"
-                        android:textColor="#2e87eb"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
+                        android:orientation="horizontal"
+                        android:layout_marginTop="8dp">
+
+                        <TextView
+                            android:id="@+id/textViewCategorie"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/categorie_badge_bg"
+                            android:paddingStart="12dp"
+                            android:paddingEnd="12dp"
+                            android:paddingTop="6dp"
+                            android:paddingBottom="6dp"
+                            android:text="Catégorie"
+                            android:textColor="#2e87eb"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/textViewNiveau"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:paddingStart="8dp"
+                            android:paddingEnd="8dp"
+                            android:paddingTop="4dp"
+                            android:paddingBottom="4dp"
+                            android:textSize="11sp"
+                            android:textStyle="bold"
+                            android:gravity="center"
+                            android:background="@drawable/niveau_badge_debutant"
+                            android:text="🟢 Débutant"
+                            android:textColor="#065F46" />
+                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/textViewDescription"
@@ -256,7 +278,7 @@
                         android:id="@+id/textViewNoModules"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Aucun module disponible"
+                        android:text="Aucun module disponible.\nGérez les modules et leçons depuis la plateforme web."
                         android:textColor="#999999"
                         android:textSize="14sp"
                         android:gravity="center"

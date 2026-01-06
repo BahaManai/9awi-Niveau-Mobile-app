@@ -15,6 +15,7 @@ import com.example.kawi_niveau_mobile_app.BuildConfig
 import com.example.kawi_niveau_mobile_app.R
 import com.example.kawi_niveau_mobile_app.data.network.Resource
 import com.example.kawi_niveau_mobile_app.databinding.FragmentCoursDetailBinding
+import com.example.kawi_niveau_mobile_app.utils.NiveauBadgeHelper
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -86,6 +87,10 @@ class CoursDetailFragment : Fragment() {
                     binding.textViewDescription.text = cours.description
                     binding.textViewCategorie.text = cours.categorie ?: "Cours"
                     binding.textViewFormateur.text = cours.formateurNom
+
+                    // Niveau de difficulté
+                    val niveau = cours.getNiveauEnum()
+                    NiveauBadgeHelper.setupNiveauBadge(binding.textViewNiveau, niveau, requireContext())
 
                     // Image
                     if (!cours.thumbnailUrl.isNullOrEmpty()) {

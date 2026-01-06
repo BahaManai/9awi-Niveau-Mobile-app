@@ -10,6 +10,7 @@ import com.example.kawi_niveau_mobile_app.BuildConfig
 import com.example.kawi_niveau_mobile_app.R
 import com.example.kawi_niveau_mobile_app.data.responses.CoursResponse
 import com.example.kawi_niveau_mobile_app.databinding.ItemCoursBinding
+import com.example.kawi_niveau_mobile_app.utils.NiveauBadgeHelper
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -42,6 +43,10 @@ class CoursAdapter(
                 textViewDescription.text = cours.description ?: "Aucune description"
                 textViewCategorie.text = cours.categorie ?: "Cours"
                 textViewDate.text = formatDate(cours.createdAt)
+                
+                // Niveau de difficulté
+                val niveau = cours.getNiveauEnum()
+                NiveauBadgeHelper.setupNiveauBadge(textViewNiveau, niveau, itemView.context)
                 
                 chipArchived.visibility = if (cours.archived) android.view.View.VISIBLE else android.view.View.GONE
                 

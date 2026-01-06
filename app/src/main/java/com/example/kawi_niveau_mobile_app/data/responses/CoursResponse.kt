@@ -1,5 +1,7 @@
 package com.example.kawi_niveau_mobile_app.data.responses
 
+import com.example.kawi_niveau_mobile_app.data.enums.NiveauDifficulte
+
 data class CoursResponse(
     val id: Long,
     val titre: String,
@@ -11,5 +13,11 @@ data class CoursResponse(
     val categorie: String?,
     val thumbnailUrl: String?,
     val formateurId: Long,
-    val formateurNom: String
-)
+    val formateurNom: String,
+    val niveauDifficulte: String,
+    val niveauDifficulteDisplay: String?
+) {
+    fun getNiveauEnum(): NiveauDifficulte {
+        return NiveauDifficulte.fromString(niveauDifficulte)
+    }
+}
