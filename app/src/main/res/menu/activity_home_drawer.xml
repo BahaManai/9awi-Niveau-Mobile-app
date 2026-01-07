@@ -12,10 +12,6 @@
             android:id="@+id/nav_courses"
             android:icon="@drawable/ic_courses"
             android:title="@string/menu_courses" />
-        <item
-            android:id="@+id/nav_progress"
-            android:icon="@drawable/ic_progress"
-            android:title="@string/menu_progress" />
     </group>
 
     <item android:title="@string/menu_account">

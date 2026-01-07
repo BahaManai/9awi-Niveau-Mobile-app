@@ -59,6 +59,12 @@ class ModuleDetailFragment : Fragment() {
             },
             onToggleCompletion = { leconId, currentlyCompleted ->
                 viewModel.toggleLeconCompletion(leconId, currentlyCompleted)
+            },
+            onOpenPdf = { pdfUrl ->
+                openPdfFile(pdfUrl)
+            },
+            onOpenVideo = { videoUrl ->
+                openVideoFile(videoUrl)
             }
         )
 
@@ -233,5 +239,50 @@ class ModuleDetailFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun openPdfFile(pdfUrl: String) {
+        try {
+            val fullUrl = "${com.example.kawi_niveau_mobile_app.BuildConfig.API_BASE_URL}api/files/lecons/$pdfUrl"
+            val intent = android.content.Intent(android.content.Intent.ACTION_VIEW).apply {
+                setDataAndType(android.net.Uri.parse(fullUrl), "application/pdf")
+                flags = android.content.Intent.FLAG_ACTIVITY_NO_HISTORY
+            }
+            
+            val chooser = android.content.Intent.createChooser(intent, "Ouvrir le PDF avec")
+            startActivity(chooser)
+        } catch (e: Exception) {
+            Toast.makeText(
+                requireContext(),
+                "Impossible d'ouvrir le PDF. Installez un lecteur PDF.",
+                Toast.LENGTH_LONG
+            ).show()
+        }
+    }
+
+    private fun openVideoFile(videoUrl: String) {
+        try {
+            // Si c'est un lien YouTube
+            if (videoUrl.contains("youtube.com") || videoUrl.contains("youtu.be")) {
+                val intent = android.content.Intent(android.content.Intent.ACTION_VIEW, android.net.Uri.parse(videoUrl))
+                startActivity(intent)
+            } else {
+                // Sinon, c'est un fichier sur le serveur
+                val fullUrl = "${com.example.kawi_niveau_mobile_app.BuildConfig.API_BASE_URL}api/files/lecons/$videoUrl"
+                val intent = android.content.Intent(android.content.Intent.ACTION_VIEW).apply {
+                    setDataAndType(android.net.Uri.parse(fullUrl), "video/*")
+                    flags = android.content.Intent.FLAG_ACTIVITY_NO_HISTORY
+                }
+                
+                val chooser = android.content.Intent.createChooser(intent, "Ouvrir la vidéo avec")
+                startActivity(chooser)
+            }
+        } catch (e: Exception) {
+            Toast.makeText(
+                requireContext(),
+                "Impossible d'ouvrir la vidéo. Installez un lecteur vidéo.",
+                Toast.LENGTH_LONG
+            ).show()
+        }
     }
 }

@@ -1,60 +1,184 @@
 package com.example.kawi_niveau_mobile_app.ui.home.accueil
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.kawi_niveau_mobile_app.R
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.kawi_niveau_mobile_app.databinding.FragmentDashboardBinding
+import com.example.kawi_niveau_mobile_app.data.network.Resource
+import com.example.kawi_niveau_mobile_app.data.local.dao.UserDao
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [HomeFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    private var _binding: FragmentDashboardBinding? = null
+    private val binding get() = _binding!!
+
+    private val viewModel: DashboardViewModel by viewModels()
+
+    @Inject
+    lateinit var userDao: UserDao
+
+    private lateinit var badgeAdapter: BadgeAdapter
+    private lateinit var challengeAdapter: ChallengeAdapter
+    private lateinit var leaderboardAdapter: LeaderboardAdapter
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentDashboardBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setupRecyclerViews()
+        setupListeners()
+        loadUserInfo()
+        observeViewModel()
+
+        // Charger les données
+        viewModel.loadDashboard()
+    }
+
+    private fun loadUserInfo() {
+        lifecycleScope.launch {
+            val user = userDao.getUser()
+            if (user != null) {
+                val userName = when {
+                    !user.firstName.isNullOrEmpty() && !user.lastName.isNullOrEmpty() -> 
+                        "${user.firstName} ${user.lastName}"
+                    !user.firstName.isNullOrEmpty() -> user.firstName
+                    !user.lastName.isNullOrEmpty() -> user.lastName
+                    else -> user.email.substringBefore("@")
+                }
+                binding.textViewWelcomeUserName.text = userName
+            }
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+    private fun setupRecyclerViews() {
+        // Adapter pour les badges (grille 3 colonnes)
+        badgeAdapter = BadgeAdapter { badge ->
+            // Marquer comme vu si nouveau
+            if (badge.isNew) {
+                viewModel.markBadgeAsViewed(badge.id)
+            }
+            Toast.makeText(requireContext(), badge.name, Toast.LENGTH_SHORT).show()
+        }
+        binding.recyclerViewBadges.apply {
+            layoutManager = GridLayoutManager(requireContext(), 3)
+            adapter = badgeAdapter
+        }
+
+        // Adapter pour les défis
+        challengeAdapter = ChallengeAdapter { challenge ->
+            // Marquer comme vu si nouveau
+            if (challenge.isNew) {
+                viewModel.markChallengeAsViewed(challenge.id)
+            }
+            Toast.makeText(requireContext(), challenge.name, Toast.LENGTH_SHORT).show()
+        }
+        binding.recyclerViewChallenges.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = challengeAdapter
+        }
+
+        // Adapter pour le classement
+        leaderboardAdapter = LeaderboardAdapter()
+        binding.recyclerViewLeaderboard.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = leaderboardAdapter
+        }
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment HomeFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            HomeFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    private fun setupListeners() {
+        binding.fabRefresh.setOnClickListener {
+            viewModel.refresh()
+        }
+    }
+
+    private fun observeViewModel() {
+        viewModel.dashboard.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                is Resource.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                }
+                is Resource.Success -> {
+                    binding.progressBar.visibility = View.GONE
+                    val dashboard = result.data
+
+                    // Afficher les statistiques
+                    displayStats(dashboard.stats)
+
+                    // Afficher les badges
+                    if (dashboard.badges.isEmpty()) {
+                        binding.recyclerViewBadges.visibility = View.GONE
+                        binding.textViewNoBadges.visibility = View.VISIBLE
+                    } else {
+                        binding.recyclerViewBadges.visibility = View.VISIBLE
+                        binding.textViewNoBadges.visibility = View.GONE
+                        badgeAdapter.submitList(dashboard.badges)
+                    }
+
+                    // Afficher les défis (filtrer pour ne montrer que les actifs)
+                    val activeChallenges = dashboard.challenges.filter { !it.isCompleted }
+                    if (activeChallenges.isEmpty()) {
+                        binding.recyclerViewChallenges.visibility = View.GONE
+                        binding.textViewNoChallenges.visibility = View.VISIBLE
+                    } else {
+                        binding.recyclerViewChallenges.visibility = View.VISIBLE
+                        binding.textViewNoChallenges.visibility = View.GONE
+                        challengeAdapter.submitList(activeChallenges)
+                    }
+
+                    // Afficher le classement
+                    displayLeaderboard(dashboard.leaderboard)
+                }
+                is Resource.Error -> {
+                    binding.progressBar.visibility = View.GONE
+                    Toast.makeText(
+                        requireContext(),
+                        "Erreur: ${result.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
+        }
+    }
+
+    private fun displayStats(stats: com.example.kawi_niveau_mobile_app.data.network.dto.UserStatsDto) {
+        binding.textViewLevelName.text = stats.levelName
+        binding.textViewTotalXP.text = "${stats.totalPoints} XP"
+        binding.textViewXPToNextLevel.text = "${stats.pointsToNextLevel} XP"
+        binding.progressBarLevel.progress = stats.progressPercent.toInt()
+    }
+
+    private fun displayLeaderboard(leaderboard: com.example.kawi_niveau_mobile_app.data.network.dto.LeaderboardDto) {
+        // Position de l'utilisateur
+        val userPos = leaderboard.userPosition
+        binding.textViewUserRank.text = "#${userPos.rank}"
+        binding.textViewLeaderboardUserName.text = userPos.name
+        binding.textViewUserPoints.text = "${userPos.totalPoints} XP"
+
+        // Top 10
+        leaderboardAdapter.submitList(leaderboard.topLeaderboard)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

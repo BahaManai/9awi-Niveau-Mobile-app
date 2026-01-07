@@ -13,7 +13,9 @@ import com.example.kawi_niveau_mobile_app.databinding.ItemLeconCardBinding
 
 class LeconAdapter(
     private val onLeconClick: (Long) -> Unit,
-    private val onToggleCompletion: (Long, Boolean) -> Unit
+    private val onToggleCompletion: (Long, Boolean) -> Unit,
+    private val onOpenPdf: (String) -> Unit = {},
+    private val onOpenVideo: (String) -> Unit = {}
 ) : ListAdapter<LeconWithCompletion, LeconAdapter.LeconViewHolder>(LeconDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LeconViewHolder {
@@ -72,6 +74,13 @@ class LeconAdapter(
                     binding.layoutPdf.visibility = View.VISIBLE
                     binding.layoutImage.visibility = View.GONE
                     binding.layoutVideo.visibility = View.GONE
+                    
+                    // Ajouter le clic pour ouvrir le PDF
+                    binding.layoutPdf.setOnClickListener {
+                        if (!lecon.fichierUrl.isNullOrEmpty()) {
+                            onOpenPdf(lecon.fichierUrl)
+                        }
+                    }
                 }
                 "IMAGE" -> {
                     binding.layoutTexte.visibility = View.GONE
@@ -96,6 +105,13 @@ class LeconAdapter(
                     binding.layoutVideo.visibility = View.VISIBLE
 
                     binding.textViewVideoUrl.text = "Vidéo disponible"
+                    
+                    // Ajouter le clic pour ouvrir la vidéo
+                    binding.layoutVideo.setOnClickListener {
+                        if (lecon.fichierUrl?.isNotEmpty() == true) {
+                            onOpenVideo(lecon.fichierUrl)
+                        }
+                    }
                 }
             }
 

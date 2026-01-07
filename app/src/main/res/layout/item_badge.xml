@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:gravity="center">
+
+        <!-- Icône du badge -->
+        <TextView
+            android:id="@+id/textViewBadgeIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🏆"
+            android:textSize="48sp"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Nom du badge -->
+        <TextView
+            android:id="@+id/textViewBadgeName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Badge Name"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:layout_marginBottom="4dp" />
+
+        <!-- Description -->
+        <TextView
+            android:id="@+id/textViewBadgeDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Description"
+            android:textSize="12sp"
+            android:textColor="@android:color/darker_gray"
+            android:textAlignment="center"
+            android:maxLines="2"
+            android:ellipsize="end" />
+
+        <!-- Indicateur "Nouveau" -->
+        <TextView
+            android:id="@+id/badgeNewIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🆕 Nouveau"
+            android:textSize="10sp"
+            android:textColor="@android:color/holo_orange_dark"
+            android:layout_marginTop="4dp"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>
