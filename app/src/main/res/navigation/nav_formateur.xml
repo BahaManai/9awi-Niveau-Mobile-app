@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_formateur_graph"
+    app:startDestination="@id/formateurDashboardFragment">
+
+    <fragment
+        android:id="@+id/formateurDashboardFragment"
+        android:name="com.example.kawi_niveau_mobile_app.ui.formateur.dashboard.FormateurDashboardFragment"
+        android:label="Dashboard Formateur"
+        tools:layout="@layout/fragment_formateur_dashboard">
+        
+        <action
+            android:id="@+id/action_dashboard_to_coursDetailFormateur"
+            app:destination="@id/coursDetailFormateurFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/coursDetailFormateurFragment"
+        android:name="com.example.kawi_niveau_mobile_app.ui.formateur.cours.CoursDetailFormateurFragment"
+        android:label="Détail du Cours"
+        tools:layout="@layout/fragment_cours_detail_formateur">
+        
+        <argument
+            android:name="coursId"
+            app:argType="long" />
+    </fragment>
+</navigation>

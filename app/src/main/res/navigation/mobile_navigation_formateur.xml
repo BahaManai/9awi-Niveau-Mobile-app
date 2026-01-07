@@ -37,9 +37,9 @@
 
     <fragment
         android:id="@+id/formateurCoursDetailFragment"
-        android:name="com.example.kawi_niveau_mobile_app.ui.formateur.cours.FormateurCoursDetailFragment"
+        android:name="com.example.kawi_niveau_mobile_app.ui.formateur.cours.CoursDetailFormateurFragment"
         android:label="Détails du Cours (Formateur)"
-        tools:layout="@layout/fragment_formateur_cours_detail">
+        tools:layout="@layout/fragment_cours_detail_formateur">
         <argument
             android:name="coursId"
             app:argType="long" />

@@ -68,14 +68,8 @@ class FormateurDashboardFragment : Fragment() {
     }
 
     private fun setupClickListeners() {
-        binding.buttonManageWeb.setOnClickListener {
-            try {
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://votre-plateforme-web.com/formateur"))
-                startActivity(intent)
-            } catch (e: Exception) {
-                Toast.makeText(requireContext(), "Impossible d'ouvrir le navigateur", Toast.LENGTH_SHORT).show()
-            }
-        }
+        // Bouton supprimé - plus de gestion web depuis le dashboard
+        // La gestion se fait maintenant via les alertes dans les détails de cours
     }
 
     private fun observeViewModel() {

@@ -213,17 +213,7 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Bouton pour aller sur le web -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/buttonManageWeb"
-            style="@style/Widget.Material3.Button.TonalButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Gérer sur la plateforme web"
-            android:textColor="@color/primary"
-            app:icon="@drawable/ic_web"
-            app:iconTint="@color/primary" />
+        <!-- Bouton supprimé - gestion via alerte dans les détails de cours -->
 
     </LinearLayout>
 

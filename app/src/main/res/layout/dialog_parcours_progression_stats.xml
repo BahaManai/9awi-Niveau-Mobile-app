@@ -230,8 +230,13 @@
         style="@style/Widget.Material3.Button.TonalButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Fermer"
+        android:text="✓ Terminé"
         android:textColor="@color/primary"
-        app:backgroundTint="@color/primary_light" />
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        app:backgroundTint="@color/primary_light"
+        app:cornerRadius="12dp" />
 
 </LinearLayout>
